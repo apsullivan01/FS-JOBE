@@ -1,5 +1,6 @@
 #imports
 from ast import Import
+import importImage
 from operator import truediv
 from pickle import FALSE, TRUE
 import os
@@ -8,16 +9,6 @@ import tkinter as tk
 from tkinter import filedialog
 from cv2 import FileNode_NAMED
 import numpy as np
-
-#Image class
-class importImage:
-    path = ""
-    name = ""
-    ext = ""
-    transparancy = 1.0
-    rotation = 0.0
-    width = 0
-    height = 0
 
 #declare list
 img1 = importImage()
