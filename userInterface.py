@@ -6,6 +6,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.slider import Slider
+from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
 # Property Imports
 from kivy.properties import NumericProperty
 
@@ -16,7 +18,11 @@ import os
 class WidgetContainer(BoxLayout):
     def __init__(self, **kwargs):
         super(WidgetContainer, self).__init__(**kwargs)
+        self.input_num = None
         self.orientation = 'vertical'
+        self.row_default_height = 20
+        self.spacing = 10
+
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images')
         to_sliders = Button(text='To Sliders')
@@ -83,7 +89,20 @@ class WidgetContainer(BoxLayout):
         self.clear_widgets()
         back_button = Button(text='Home')
         self.add_widget(back_button)
+
+        input_label = Label(text='Enter number of images to be imported in text field below (max 10)')
+        self.add_widget(input_label)
+        self.input_num = TextInput(text='')
+        submit_button = Button(text='Submit', on_release=self.submit)
+        self.add_widget(self.input_num)
+        self.add_widget(submit_button)
+
+
+        # Events
         back_button.bind(on_release=self.go_home)
+
+    def submit(self, obj):
+        print(self.input_num.text)
 
 
 # App Class
