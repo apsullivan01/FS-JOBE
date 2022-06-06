@@ -1,6 +1,5 @@
 #imports
 from ast import Import
-import importImage
 from operator import truediv
 from pickle import FALSE, TRUE
 import os
@@ -9,6 +8,16 @@ import tkinter as tk
 from tkinter import filedialog
 from cv2 import FileNode_NAMED
 import numpy as np
+
+class importImage:
+    path = ""
+    name = ""
+    ext = ""
+    transparancy = 1.0
+    rotation = 0.0
+    width = 0
+    height = 0
+
 
 #declare list
 img1 = importImage()
@@ -34,8 +43,6 @@ def imgImport(numImage):
     root = tk.Tk()
     root.withdraw()
 
-
-
     #loop until no more images to select
     for image in imgList:
         #extract file path from dialog box
@@ -48,7 +55,7 @@ def imgImport(numImage):
         image.ext = imageOut.format
         #check for supported file type
         #this might need to be fixed, kinda shit code ngl
-        if (image.ext.lower() != "jpeg"):
+        if (image.ext.lower() != "png"):
             print("File type not supported. Please try again.")
             break
         #extract size and then extract height and width
