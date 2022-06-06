@@ -104,7 +104,8 @@ class WidgetContainer(BoxLayout):
         back_button.bind(on_release=self.go_home)
 
     def submit(self, obj):
-        print(self.input_num.text)
+        self.numImg = self.input_num.text
+        
 
 
 # App Class
