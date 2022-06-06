@@ -19,7 +19,7 @@ def renderOverlay(slides, transparency):
             background.paste(
                 element,
                 (x, y),
-                element1)
+                mask)
         i += 1
     background.save("composite.png", format="PNG")
     background.show()
