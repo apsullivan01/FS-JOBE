@@ -18,33 +18,46 @@ class importImage:
     width = 0
     height = 0
 
+class allImages:
+    imgList = []
+    def __init__(self):
+        self.img1 = importImage()
+        self.imgList.append(self.img1)
+        self.img2 = importImage()
+        self.imgList.append(self.img2)
+        self.img3 = importImage()
+        self.imgList.append(self.img3)
+        self.img4 = importImage()
+        self.imgList.append(self.img4)
+        self.img5 = importImage()
+        self.imgList.append(self.img5)
+        self.img6 = importImage()
+        self.imgList.append(self.img6)
+        self.img7 = importImage()
+        self.imgList.append(self.img7)
+        self.img8 = importImage()
+        self.imgList.append(self.img8)
+        self.img9 = importImage()
+        self.imgList.append(self.img9)
+        self.img10 = importImage()
+        self.imgList.append(self.img10)
 
-#declare list
-img1 = importImage()
-img2 = importImage()
-img3 = importImage()
-img4 = importImage()
-img5 = importImage()
-img6 = importImage()
-img7 = importImage()
-img8 = importImage()
-img9 = importImage()
-img10 = importImage()
+    
 
-imgList = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10]
+
 
 #importing method
 def imgImport(numImage):
     #removing unused images from list
     for i in range (numImage - 1, 9):
-        imgList.pop()
+        allImages.imgList.pop()
 
     #idk what this does but its necesary
     root = tk.Tk()
     root.withdraw()
 
     #loop until no more images to select
-    for image in imgList:
+    for image in allImages.imgList:
         #extract file path from dialog box
         image.path = filedialog.askopenfilename()
         #create image object
@@ -62,8 +75,12 @@ def imgImport(numImage):
         imageSize = imageOut.size
         image.width, image.height = imageSize
         #show image
-        imageOut.show()
+        #imageOut.show()
+
+def updateTrans(imageNum, trans):
+    allImages.imgList[imageNum].transparancy = trans
 
 print("Welcome to the image import wizard. You will be walked through how to import any number of images to be used with the image combination program.")
 num = int(input("How many images would you like to import (max 10)"))
+Images = allImages()
 imgImport(num)
