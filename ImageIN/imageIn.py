@@ -42,12 +42,10 @@ class allImages:
         self.img10 = importImage()
         self.imgList.append(self.img10)
 
-    
-
-
 
 #importing method
 def imgImport(numImage):
+    Images = allImages()
     #removing unused images from list
     for i in range (numImage - 1, 9):
         allImages.imgList.pop()
@@ -79,8 +77,3 @@ def imgImport(numImage):
 
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
-
-print("Welcome to the image import wizard. You will be walked through how to import any number of images to be used with the image combination program.")
-num = int(input("How many images would you like to import (max 10)"))
-Images = allImages()
-imgImport(num)

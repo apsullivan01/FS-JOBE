@@ -12,6 +12,7 @@ from kivy.uix.label import Label
 from kivy.properties import NumericProperty
 #File imports
 import ImageIN
+from ImageIN import imageIn
 
 import os
 
@@ -67,7 +68,7 @@ class WidgetContainer(BoxLayout):
         back_button = Button(text='Home')
         self.add_widget(back_button)
         self.add_widget(slide_one)
-
+        imageIn.imgImport(self.numImg)
         back_button.bind(on_release=self.go_home)
 
     # Clear the interface and bring up loadable states
