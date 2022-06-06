@@ -64,11 +64,17 @@ class WidgetContainer(BoxLayout):
     # Clear the interface and setup image selection
     def select_images(self, event):
         self.clear_widgets()
-        slide_one = Slider()
         back_button = Button(text='Home')
         self.add_widget(back_button)
-        self.add_widget(slide_one)
-        imageIn.imgImport(self.numImg)
+
+        input_label = Label(text='Enter number of images to be imported in text field below (max 10)')
+        self.add_widget(input_label)
+        self.input_num = TextInput(text='')
+        submit_button = Button(text='Submit', on_release=self.submit)
+        self.add_widget(self.input_num)
+        self.add_widget(submit_button)
+
+        
         back_button.bind(on_release=self.go_home)
 
     # Clear the interface and bring up loadable states
@@ -93,12 +99,7 @@ class WidgetContainer(BoxLayout):
         back_button = Button(text='Home')
         self.add_widget(back_button)
 
-        input_label = Label(text='Enter number of images to be imported in text field below (max 10)')
-        self.add_widget(input_label)
-        self.input_num = TextInput(text='')
-        submit_button = Button(text='Submit', on_release=self.submit)
-        self.add_widget(self.input_num)
-        self.add_widget(submit_button)
+
 
 
         # Events
@@ -106,6 +107,7 @@ class WidgetContainer(BoxLayout):
 
     def submit(self, obj):
         self.numImg = self.input_num.text
+        imageIn.imgImport(int(self.numImg))
         
 
 
