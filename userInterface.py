@@ -93,20 +93,21 @@ class WidgetContainer(BoxLayout):
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
         self.clear_widgets()
-        #box = BoxLayout(orientation='vertical')
-        #back_button = Button(text='Home',size_hint=(1,0.1))
-        #back_button.bind(on_release=self.go_home)
+        box = BoxLayout(orientation='vertical')
+        back_button = Button(text='Home',size_hint=(1,0.1))
+        back_button.bind(on_release=self.go_home)
 
-        #box.add_widget(back_button)
+        box.add_widget(back_button)
 
-        #box.add_widget(sliders)
-        self.add_widget(self.sliders)
+        box.add_widget(self.sliders)
+        self.add_widget(box)
 
 
     def submit(self, obj):
         self.numImg = self.input_num.text
         self.imageList = imageIn.imgImport(int(self.numImg))
         self.sliders.setImageList(self.imageList)
+        self.sliders.showImageObj()
 
 
 # App Class
