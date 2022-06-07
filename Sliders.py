@@ -71,12 +71,3 @@ class ImageView(RelativeLayout):
         self.opacity = opacity/100
 
 # The app class
-class UserInterface(App):
-    def build(self):
-        widgetContainer = UI()
-        return widgetContainer
-
-
-# creating the object root for ButtonApp() class
-if __name__ == "__main__":
-    UserInterface().run()
