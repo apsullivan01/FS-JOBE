@@ -105,7 +105,8 @@ class WidgetContainer(BoxLayout):
 
     def submit(self, obj):
         self.numImg = self.input_num.text
-        self.imageList = imageIn.imgImport(int(self.numImg))
+        self.imageListClass = imageIn.imgImport(int(self.numImg))
+        self.imageList = self.imageListClass.getImageList()
         self.sliders.setImageList(self.imageList)
         self.sliders.showImageObj()
 

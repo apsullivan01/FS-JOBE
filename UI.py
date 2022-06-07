@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 
 from ImageBoxAndView import ImageBoxAndView
 from ImageView import ImageView
-
+from ImageIN import imageIn
 
 class UI(BoxLayout):
     def __init__(self, **kwargs):
@@ -17,7 +17,7 @@ class UI(BoxLayout):
         self.imageArea = BoxLayout(orientation='vertical')
         self.sideBar = GridLayout(cols=1, row_force_default=True, row_default_height=150)
 
-        self.imageList = []#['Images/L15.png', 'Images/L15 XPL.png']
+        self.imageList = [] #['Images/L15.png', 'Images/L15 XPL.png']
         self.imageObjList = []
         self.imageAreaFix = AnchorLayout(anchor_x='center', anchor_y='center')
 
@@ -26,11 +26,8 @@ class UI(BoxLayout):
     def getImageList(self):
         return self.imageList
 
-    def setImageList(self, imageList):
-        self.imageList = imageList
-
-    def createImageObj(self):
-        for image in self.imageList:
+    def createImageObj(self,imageList):
+        for image in imageList:
             imageObj = ImageBoxAndView(image)
             self.imageObjList.append(imageObj)
     def showImageObj(self):
