@@ -97,14 +97,15 @@ class WidgetContainer(BoxLayout):
         #back_button.bind(on_release=self.go_home)
 
         #box.add_widget(back_button)
-        sliders = UI()
+        self.sliders = UI()
         #box.add_widget(sliders)
-        self.add_widget(sliders)
+        self.add_widget(self.sliders)
 
 
     def submit(self, obj):
         self.numImg = self.input_num.text
-        imageIn.imgImport(int(self.numImg))
+        self.imageList = imageIn.imgImport(int(self.numImg))
+        self.sliders.setImageList(self.imageList)
 
 
 # App Class

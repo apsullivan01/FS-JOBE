@@ -54,7 +54,7 @@ def imgImport(numImage):
     root = tk.Tk()
     root.withdraw()
 
-    #loop until no more images to select
+    # loop until no more images to select
     for image in allImages.imgList:
         #extract file path from dialog box
         image.path = filedialog.askopenfilename()
@@ -74,6 +74,6 @@ def imgImport(numImage):
         image.width, image.height = imageSize
         #show image
         #imageOut.show()
-
+    return Images
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
