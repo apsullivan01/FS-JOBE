@@ -34,6 +34,7 @@ class WidgetContainer(BoxLayout):
         self.orientation = 'vertical'
         self.row_default_height = 20
         self.spacing = 10
+        self.sliders = UI()
 
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
@@ -97,7 +98,7 @@ class WidgetContainer(BoxLayout):
         #back_button.bind(on_release=self.go_home)
 
         #box.add_widget(back_button)
-        self.sliders = UI()
+
         #box.add_widget(sliders)
         self.add_widget(self.sliders)
 
