@@ -27,55 +27,42 @@ class WidgetContainer(BoxLayout):
         self.spacing = 10
 
         # Each button corresponds to the action they would like to take
-        select_images = Button(text='Select Images')
-        to_sliders = Button(text='To Sliders')
-        load_button = Button(text='Load Images')
-        save_button = Button(text='Save State')
+        select_images = Button(text='Select Images', on_release=self.select_images)
+        to_sliders = Button(text='To Sliders', on_release=self.to_sliders)
+        load_button = Button(text='Load Images', on_release=self.load_state)
+        save_button = Button(text='Save State', on_release=self.save_state)
 
         self.add_widget(select_images)
         self.add_widget(load_button)
         self.add_widget(save_button)
         self.add_widget(to_sliders)
-
-        select_images.bind(on_release=self.select_images)
-        load_button.bind(on_release=self.load_state)
-        save_button.bind(on_release=self.save_state)
-        to_sliders.bind(on_release=self.to_sliders)
 
     # Go back to home state
     def go_home(self, event):
         self.clear_widgets()
         # Each button corresponds to the action they would like to take
-        select_images = Button(text='Select Images')
-        to_sliders = Button(text='To Sliders')
-        load_button = Button(text='Load Images')
-        save_button = Button(text='Save State')
+        select_images = Button(text='Select Images', on_release=self.select_images)
+        to_sliders = Button(text='To Sliders', on_release=self.to_sliders)
+        load_button = Button(text='Load Images', on_release=self.load_state)
+        save_button = Button(text='Save State', on_release=self.save_state)
 
         self.add_widget(select_images)
         self.add_widget(load_button)
         self.add_widget(save_button)
         self.add_widget(to_sliders)
 
-        select_images.bind(on_release=self.select_images)
-        load_button.bind(on_release=self.load_state)
-        save_button.bind(on_release=self.save_state)
-        to_sliders.bind(on_release=self.to_sliders)
-
     # Clear the interface and setup image selection
     def select_images(self, event):
         self.clear_widgets()
-        back_button = Button(text='Home')
+        back_button = Button(text='Home', size_hint=(1, .5), on_release=self.go_home)
         self.add_widget(back_button)
 
         input_label = Label(text='Enter number of images to be imported in text field below (max 10)')
         self.add_widget(input_label)
-        self.input_num = TextInput(text='')
-        submit_button = Button(text='Submit', on_release=self.submit)
+        self.input_num = TextInput(text='', size_hint=(1, .2))
+        submit_button = Button(text='Submit', on_release=self.submit, size_hint=(1, .2))
         self.add_widget(self.input_num)
         self.add_widget(submit_button)
-
-        
-        back_button.bind(on_release=self.go_home)
 
     # Clear the interface and bring up loadable states
     def load_state(self, event):
