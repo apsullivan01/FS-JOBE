@@ -107,8 +107,7 @@ class WidgetContainer(BoxLayout):
         self.numImg = self.input_num.text
         self.imageListClass = imageIn.imgImport(int(self.numImg))
         self.imageList = self.imageListClass.getImageList()
-        self.sliders.setImageList(self.imageList)
-        self.sliders.showImageObj()
+        self.sliders.showImageObj(self.imageList)
 
 
 # App Class

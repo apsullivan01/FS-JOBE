@@ -30,8 +30,8 @@ class UI(BoxLayout):
         for image in imageList:
             imageObj = ImageBoxAndView(image)
             self.imageObjList.append(imageObj)
-    def showImageObj(self):
-        self.createImageObj()
+    def showImageObj(self, imageInputList):
+        self.createImageObj(imageInputList)
         self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
         for image in self.imageObjList:
             self.imageAreaFix.add_widget(image.getView())
