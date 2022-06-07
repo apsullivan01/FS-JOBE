@@ -69,12 +69,15 @@ def imgImport(numImage):
         #extract name
         image.name = imageOut.filename
         #extract file extension
-        image.ext = imageOut.format
-        #check for supported file type
-        #this might need to be fixed, kinda shit code ngl
-        if (image.ext.lower() != "png"):
+        try:
+            image.ext = imageOut.format
+            #check for supported file type
+            #this might need to be fixed, kinda shit code ngl
+            if (image.ext.lower() != "png"):
+                raise ExtensionError
+        except ExtensionError:
             print("File type not supported. Please try again.")
-            break
+
         #extract size and then extract height and width
         imageSize = imageOut.size
         image.width, image.height = imageSize
@@ -83,3 +86,6 @@ def imgImport(numImage):
     return Images
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
+
+class ExtensionError:
+    pass
