@@ -37,12 +37,10 @@ class WidgetContainer(BoxLayout):
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
         to_sliders = Button(text='To Sliders', on_release=self.to_sliders)
-        load_button = Button(text='Load Images', on_release=self.load_state)
-        save_button = Button(text='Save State', on_release=self.save_state)
+        edit_button = Button(text='Load Images', on_release=self.edit_images)
 
         self.add_widget(select_images)
-        self.add_widget(load_button)
-        self.add_widget(save_button)
+        self.add_widget(edit_button)
         self.add_widget(to_sliders)
 
     # Go back to home state
@@ -51,12 +49,10 @@ class WidgetContainer(BoxLayout):
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
         to_sliders = Button(text='To Sliders', on_release=self.to_sliders)
-        load_button = Button(text='Load Images', on_release=self.load_state)
-        save_button = Button(text='Save State', on_release=self.save_state)
+        edit_button = Button(text='Edit Images', on_release=self.edit_images)
 
         self.add_widget(select_images)
-        self.add_widget(load_button)
-        self.add_widget(save_button)
+        self.add_widget(edit_button)
         self.add_widget(to_sliders)
 
     # Clear the interface and setup image selection
@@ -73,20 +69,11 @@ class WidgetContainer(BoxLayout):
         self.add_widget(submit_button)
 
     # Clear the interface and bring up loadable states
-    def load_state(self, event):
+    def edit_images(self, event):
         self.clear_widgets()
         back_button = Button(text='Home')
         self.add_widget(back_button)
         back_button.bind(on_release=self.go_home)
-
-    # Needs to be an option after to sliders
-    def save_state(self, event):
-        self.clear_widgets()
-        back_button = Button(text='Home')
-        self.add_widget(back_button)
-
-        back_button.bind(on_release=self.go_home)
-        pass
 
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
