@@ -1,6 +1,5 @@
-# App Imports
+# Kivy Imports
 from kivy.app import App
-# UIX Imports
 from kivy.graphics import Rectangle, Color
 from kivy.metrics import dp
 from kivy.uix.anchorlayout import AnchorLayout
@@ -12,19 +11,17 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.slider import Slider
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
-# Property Imports
 from kivy.properties import NumericProperty
-#File imports
 from kivy.uix.widget import Widget
+
+# Other Imports
 import imageIn
-#from Sliders import UI,ImageView
 import os
+#from Sliders import UI,ImageView
+from UI import UI
+from EditImg import EditImg
 
 # Basic GUI Implementation
-# Widgets
-from UI import UI
-
-
 class WidgetContainer(BoxLayout):
     def __init__(self, **kwargs):
         super(WidgetContainer, self).__init__(**kwargs)
@@ -33,11 +30,12 @@ class WidgetContainer(BoxLayout):
         self.row_default_height = 20
         self.spacing = 10
         self.sliders = UI()
+        self.image_edit = EditImg()
 
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
         to_sliders = Button(text='To Sliders', on_release=self.to_sliders)
-        edit_button = Button(text='Load Images', on_release=self.edit_images)
+        edit_button = Button(text='Edit Images', on_release=self.edit_images)
 
         self.add_widget(select_images)
         self.add_widget(edit_button)
@@ -69,11 +67,14 @@ class WidgetContainer(BoxLayout):
         self.add_widget(submit_button)
 
     # Clear the interface and bring up loadable states
-    def edit_images(self, event):
+    def edit_images(self, obj):
         self.clear_widgets()
-        back_button = Button(text='Home')
+        back_button = Button(text='Home', on_release=self.go_home)
         self.add_widget(back_button)
-        back_button.bind(on_release=self.go_home)
+        self.numImg  = self.input_num.text
+        self.imageListClass = imageIn.imgImport(int(self.numImg))
+        self.imageList = self.imageListClass.getImageList()
+        self.image_edit.showImageObj(self.imageList)
 
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
