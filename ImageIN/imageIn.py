@@ -11,13 +11,15 @@ import numpy as np
 import matrix
 
 class importImage:
-    path = ""
-    name = ""
-    ext = ""
-    transparancy = 1.0
-    rotation = 0.0
-    width = 0
-    height = 0
+    def __int__(self):
+        path = ""
+        name = ""
+        ext = ""
+        transparancy = 1.0
+        rotation = 0.0
+        width = 0
+        height = 0
+
 
 class allImages:
     imgList = []
@@ -42,7 +44,11 @@ class allImages:
         self.imgList.append(self.img9)
         self.img10 = importImage()
         self.imgList.append(self.img10)
-
+    def getImageList(self):
+        self.imgStringList = []
+        for image in self.imgList:
+            self.imgStringList.append(image.path)
+        return self.imgStringList
 
 #importing method
 def imgImport(numImage):
@@ -55,7 +61,7 @@ def imgImport(numImage):
     root = tk.Tk()
     root.withdraw()
 
-    #loop until no more images to select
+    # loop until no more images to select
     for image in allImages.imgList:
         #extract file path from dialog box
         image.path = filedialog.askopenfilename()
@@ -64,19 +70,29 @@ def imgImport(numImage):
         #extract name
         image.name = imageOut.filename
         #extract file extension
-        image.ext = imageOut.format
-        #check for supported file type
-        #this might need to be fixed, kinda shit code ngl
-        if (image.ext.lower() != "png"):
+        try:
+            image.ext = imageOut.format
+            #check for supported file type
+            #this might need to be fixed, kinda shit code ngl
+            if (image.ext.lower() != "png"):
+                raise ExtensionError
+        except ExtensionError:
             print("File type not supported. Please try again.")
-            break
+
         #extract size and then extract height and width
         imageSize = imageOut.size
         image.width, image.height = imageSize
         #show image
         #imageOut.show()
+<<<<<<< HEAD
     #call matrix function
     matrix.createMatrix(Images)
 
+=======
+    return Images
+>>>>>>> 9216993db8a54f93889449f7e52dedd55a19be37
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
+
+class ExtensionError:
+    pass
