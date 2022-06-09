@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 
 from ImageBoxAndView import ImageBoxAndView
 from ImageView import ImageView
-from ImageIN import imageIn
+import imageIn
 
 class UI(BoxLayout):
     def __init__(self, **kwargs):

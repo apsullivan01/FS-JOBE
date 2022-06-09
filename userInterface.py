@@ -16,9 +16,7 @@ from kivy.uix.label import Label
 from kivy.properties import NumericProperty
 #File imports
 from kivy.uix.widget import Widget
-
-import ImageIN
-from ImageIN import imageIn
+import imageIn
 #from Sliders import UI,ImageView
 import os
 
