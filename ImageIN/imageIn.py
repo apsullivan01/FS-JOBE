@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import filedialog
 from cv2 import FileNode_NAMED
 import numpy as np
+import matrix
 
 class importImage:
     path = ""
@@ -74,6 +75,8 @@ def imgImport(numImage):
         image.width, image.height = imageSize
         #show image
         #imageOut.show()
+    #call matrix function
+    matrix.createMatrix(Images)
 
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
