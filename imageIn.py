@@ -6,9 +6,10 @@ import os
 from PIL import Image
 import tkinter as tk
 from tkinter import filedialog
-from cv2 import FileNode_NAMED
+# from cv2 import FileNode_NAMED
 import numpy as np
 import createMatrix
+from createMatrix import imgMatrix
 
 class ExtensionError:
     pass
@@ -56,6 +57,7 @@ class allImages:
 #importing method
 def imgImport(numImage):
     Images = allImages()
+    matrix_images = imgMatrix()
     #removing unused images from list
     for i in range (numImage - 1, 9):
         allImages.imgList.pop()
@@ -73,6 +75,10 @@ def imgImport(numImage):
         #extract name
         image.name = imageOut.filename
         #extract file extension
+        image.ext = imageOut.format
+        if (image.ext.lower() != "png"):
+            print("File type not supported. Please try again.")
+            break
         #try:
         #    image.ext = imageOut.format
             #check for supported file type
@@ -87,8 +93,10 @@ def imgImport(numImage):
         image.width, image.height = imageSize
         #show image
         #imageOut.show()
-        createMatrix.createMatrix(Images.getImageList())
+        #imgMatrix.createMatrix(Images.getImageList())
+        #matrix_images.createMatrix(Images.getImageList())
     return Images
+
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
 

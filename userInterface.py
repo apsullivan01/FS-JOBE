@@ -17,7 +17,7 @@ from kivy.uix.widget import Widget
 # Other Imports
 import imageIn
 import os
-#from Sliders import UI,ImageView
+# from Sliders import UI,ImageView
 from UI import UI
 from EditImg import EditImg
 
@@ -31,6 +31,7 @@ class WidgetContainer(BoxLayout):
         self.spacing = 10
         self.sliders = UI()
         self.image_edit = EditImg()
+
 
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
@@ -67,21 +68,27 @@ class WidgetContainer(BoxLayout):
         self.add_widget(submit_button)
 
     # Clear the interface and bring up loadable states
-    def edit_images(self, obj):
+    def edit_images(self, event):
+        # Home Button
         self.clear_widgets()
         back_button = Button(text='Home', on_release=self.go_home)
         self.add_widget(back_button)
-        self.numImg  = self.input_num.text
-        self.imageListClass = imageIn.imgImport(int(self.numImg))
-        self.imageList = self.imageListClass.getImageList()
+
+        box = BoxLayout(orientation='vertical')
+        box.add_widget(self.image_edit)
+        self.add_widget(box)
+
+        #self.numImg  = self.input_num.text
+        #self.imageListClass = imageIn.imgImport(int(self.numImg))
+        #self.imageList = self.imageListClass.getImageList()
         self.image_edit.showImageObj(self.imageList)
 
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
         self.clear_widgets()
+
         box = BoxLayout(orientation='vertical')
-        back_button = Button(text='Home',size_hint=(1,0.1))
-        back_button.bind(on_release=self.go_home)
+        back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
 
         box.add_widget(back_button)
 
