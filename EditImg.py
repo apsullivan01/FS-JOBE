@@ -6,7 +6,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.widget import Widget
 
-from ImageBoxAndView import ImageBoxAndView
+from EditBoxAndView import EditBoxAndView
 
 
 class EditImg(BoxLayout):
@@ -19,15 +19,15 @@ class EditImg(BoxLayout):
         self.imageList = []
         self.imageObjList = []
         self.imageAreaFix = AnchorLayout(anchor_x='center', anchor_y='center')
-    
+
     def getImageList(self):
         return self.imageList
-    
+
     def createImageObj(self, imageList):
         for image in imageList:
-            imageObj = ImageBoxAndView(image)
+            imageObj = EditBoxAndView(image)
             self.imageObjList.append(imageObj)
-            
+
     def showImageObj(self, imageInputList):
         self.createImageObj(imageInputList)
         self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
@@ -40,12 +40,3 @@ class EditImg(BoxLayout):
 
         self.add_widget(self.sideBar)
         self.add_widget(self.imageArea)
-        
-    def translate(self, instance, pos):
-        self.pos = pos/100
-    
-    def resize(self, size):
-        self.size = size/100
-    
-    def rotate(self, angle):
-        self.angle = angle/100

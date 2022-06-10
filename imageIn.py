@@ -1,4 +1,4 @@
-#imports
+# imports
 from ast import Import
 from operator import truediv
 from pickle import FALSE, TRUE
@@ -11,8 +11,10 @@ import numpy as np
 import createMatrix
 from createMatrix import imgMatrix
 
+
 class ExtensionError:
     pass
+
 
 class importImage:
     def __int__(self):
@@ -27,6 +29,7 @@ class importImage:
 
 class allImages:
     imgList = []
+
     def __init__(self):
         self.img1 = importImage()
         self.imgList.append(self.img1)
@@ -48,56 +51,57 @@ class allImages:
         self.imgList.append(self.img9)
         self.img10 = importImage()
         self.imgList.append(self.img10)
+
     def getImageList(self):
         self.imgStringList = []
         for image in self.imgList:
             self.imgStringList.append(image.path)
         return self.imgStringList
 
-#importing method
+
+# importing method
 def imgImport(numImage):
     Images = allImages()
     matrix_images = imgMatrix()
-    #removing unused images from list
-    for i in range (numImage - 1, 9):
+    # removing unused images from list
+    for i in range(numImage - 1, 9):
         allImages.imgList.pop()
 
-    #idk what this does but its necesary
+    # idk what this does but its necesary
     root = tk.Tk()
     root.withdraw()
 
     # loop until no more images to select
     for image in allImages.imgList:
-        #extract file path from dialog box
+        # extract file path from dialog box
         image.path = filedialog.askopenfilename()
-        #create image object
+        # create image object
         imageOut = Image.open(image.path)
-        #extract name
+        # extract name
         image.name = imageOut.filename
-        #extract file extension
+        # extract file extension
         image.ext = imageOut.format
         if (image.ext.lower() != "png"):
             print("File type not supported. Please try again.")
             break
-        #try:
+        # try:
         #    image.ext = imageOut.format
-            #check for supported file type
-            #this might need to be fixed, kinda shit code ngl
+        # check for supported file type
+        # this might need to be fixed, kinda shit code ngl
         #    if (image.ext.lower() != "png"):
         #        raise ExtensionError
-        #except ExtensionError:
+        # except ExtensionError:
         #    print("File type not supported. Please try again.")
 
-        #extract size and then extract height and width
+        # extract size and then extract height and width
         imageSize = imageOut.size
         image.width, image.height = imageSize
-        #show image
-        #imageOut.show()
-        #imgMatrix.createMatrix(Images.getImageList())
-        #matrix_images.createMatrix(Images.getImageList())
+        # show image
+        # imageOut.show()
+        # imgMatrix.createMatrix(Images.getImageList())
+        # matrix_images.createMatrix(Images.getImageList())
     return Images
+
 
 def updateTrans(imageNum, trans):
     allImages.imgList[imageNum].transparancy = trans
-
-

@@ -21,6 +21,7 @@ import os
 from UI import UI
 from EditImg import EditImg
 
+
 # Basic GUI Implementation
 class WidgetContainer(BoxLayout):
     def __init__(self, **kwargs):
@@ -35,7 +36,6 @@ class WidgetContainer(BoxLayout):
         # Instancing UI and EditImg
         self.sliders = UI()
         self.image_edit = EditImg()
-
 
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
@@ -95,8 +95,6 @@ class WidgetContainer(BoxLayout):
         box.add_widget(self.image_edit)
         self.add_widget(box)
 
-
-
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
         # Clears existing widgets to simulate change to Sliders screen
@@ -110,7 +108,6 @@ class WidgetContainer(BoxLayout):
         box.add_widget(back_button)
         box.add_widget(self.sliders)
         self.add_widget(box)
-
 
     def submit(self, obj):
         # Grabs the number of images in the input_num TextInput

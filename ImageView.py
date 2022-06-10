@@ -13,3 +13,13 @@ class ImageView(RelativeLayout):
 
     def changeOpacity(self, instance, opacity):
         self.opacity = opacity/100
+
+    def translate(self, instance, pos):
+        self.pos = pos/100
+
+    def resize(self, instance, size):
+        self.size = size/100
+
+    def rotate(self, instance, angle):
+        self.angle = angle/100
+
