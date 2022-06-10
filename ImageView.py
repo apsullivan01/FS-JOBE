@@ -6,19 +6,20 @@ from kivy.uix.relativelayout import RelativeLayout
 class ImageView(RelativeLayout):
     def __init__(self, imageName, **kwargs):
         super(ImageView, self).__init__(**kwargs)
-        self.size = (dp(350),dp(350))
+        self.size = (dp(500), dp(500))
+        self.allow_stretch = True
         with self.canvas:
             self.opacity = 1
-            Rectangle(source=imageName, pos=(dp(30),dp(0)), size=(dp(350),dp(350)))
+            Rectangle(source=imageName, pos=(dp(30),dp(0)), size=(dp(500),dp(500)))
 
     def changeOpacity(self, instance, opacity):
         self.opacity = opacity/100
 
     def translate(self, instance, pos):
-        self.pos = pos/100
+        self.x -= 10
 
     def resize(self, instance, size):
-        self.size = size/100
+        self.texture_size -= 10
 
     def rotate(self, instance, angle):
         self.angle = angle/100
