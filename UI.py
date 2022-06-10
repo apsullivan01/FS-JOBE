@@ -17,10 +17,9 @@ class UI(BoxLayout):
         self.imageArea = BoxLayout(orientation='vertical')
         self.sideBar = GridLayout(cols=1, row_force_default=True, row_default_height=150)
 
-        self.imageList = [] #['Images/L15.png', 'Images/L15 XPL.png']
+        self.imageList = []
         self.imageObjList = []
         self.imageAreaFix = AnchorLayout(anchor_x='center', anchor_y='center')
-
 
 
     def getImageList(self):
@@ -30,6 +29,7 @@ class UI(BoxLayout):
         for image in imageList:
             imageObj = ImageBoxAndView(image)
             self.imageObjList.append(imageObj)
+
     def showImageObj(self, imageInputList):
         self.createImageObj(imageInputList)
         self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
