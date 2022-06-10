@@ -30,7 +30,7 @@ class UserInterface(App):
     # Build starting interface
     def build(self):
         widgetContainer = MoveMe()
-        MoveMe.add_widget(Image(source = "/Images/L03.png"))
+        widgetContainer.add_widget(Image(source = 'Images/L03.png', size = (dp(300),dp(300))))
         return widgetContainer
 
 
