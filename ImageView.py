@@ -7,7 +7,7 @@ class ImageView(RelativeLayout):
     def __init__(self, imageName, **kwargs):
         super(ImageView, self).__init__(**kwargs)
         self.size = (dp(500), dp(500))
-        self.allow_stretch = True
+        # self.allow_stretch = True
         with self.canvas:
             self.opacity = 1
             Rectangle(source=imageName, pos=(dp(30),dp(0)), size=(dp(500),dp(500)))
