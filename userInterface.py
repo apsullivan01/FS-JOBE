@@ -111,16 +111,16 @@ class EditImages(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(EditImages, self).__init__(**kwargs)
-
-    def create_screen(self):
-        self.home_screen = self.manager.get_screen('homeScreen')
+        self.pos_list = []
+        self.rotation_list = []
+        self.scale = []
         self.image_edit = ImageEditSceen()
         # Creates the entirety of the slider and image sections
 
         # Creating back button and new box layout for images and sliders
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
         box = BoxLayout(orientation='vertical')
-
+        export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
         # Adding created widgets to the user interface
         box.add_widget(back_button)
         box.add_widget(self.image_edit)
@@ -132,6 +132,9 @@ class EditImages(Screen):
     def go_home(self, event):
         self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
+
+    def handle_save(self,pos, rotation, size):
+        print(pos, rotation, size)
 
 class SlidersScreen(Screen):
     def __init__(self, **kwargs):
@@ -161,10 +164,7 @@ class UserInterface(App):
         screen_manager = ScreenManager()
         screen_manager.add_widget(HomeScreen(name="homeScreen"))
         screen_manager.add_widget(SelectImages(name="selectScreen"))
-
-        edit_screen = EditImages(name="editScreen")
-        screen_manager.add_widget(edit_screen)
-        edit_screen.create_screen()
+        screen_manager.add_widget(EditImages(name="editScreen"))
         screen_manager.add_widget(SlidersScreen(name="slidersScreen"))
 
 

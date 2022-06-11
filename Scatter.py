@@ -32,6 +32,7 @@ class ImageEditSceen(FloatLayout):
             self.imageSlider.slider.bind(value=self.imageArea.imageBox.scatter.change_opacity)
             if len(self.image_list) > 2:
                 self.imageSlider.next_button.bind(on_release=self.next_image)
+            self.imageSlider.save_button.bind(on_release=self.send_save)
             self.add_widget(self.imageSlider)
             self.add_widget(self.imageArea)
 
@@ -47,7 +48,14 @@ class ImageEditSceen(FloatLayout):
         self.add_widget(self.imageSlider)
         self.add_widget(self.imageArea)
 
-    #def send_save:
+    def send_save(self,instance):
+        pos = self.imageArea.imageBox.scatter.pos
+        rotation = self.imageArea.imageBox.scatter.rotation
+        size = (self.imageArea.imageBox.scatter.width * self.imageArea.imageBox.scatter.scale
+                , self.imageArea.imageBox.scatter.height * self.imageArea.imageBox.scatter.scale)
+        print(pos, rotation, size)
+        self.parent.parent.handle_save(pos, rotation, size)
+
 
 
 
@@ -120,6 +128,7 @@ class ImageAlign(Scatter):
         self.do_scale = False
         # add image
         self.add_widget(self.image)
+        print(self.pos, self.rotation, self.image.size)
 
     # change default on touch to include a mouse wheel scroll for zooming.
     def on_touch_down(self, touch):
