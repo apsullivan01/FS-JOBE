@@ -26,6 +26,7 @@ class ImageEditSceen(FloatLayout):
         if len(imageList) > 1:
             self.imageArea = ImageEdit(imageList[1], imageList[0])
             self.imageSlider = ImageEditSlider(imageList[1])
+            self.imageSlider.slider.bind(value=self.imageArea.imageBox.scatter.change_opacity)
             self.add_widget(self.imageSlider)
             self.add_widget(self.imageArea)
 
@@ -39,7 +40,7 @@ class ImageEditSlider(GridLayout):
         # grid for slider and label
         self.grid = GridLayout(cols=1)
         # make slider
-        self.slider = Slider(min=0, max=100)
+        self.slider = Slider(min=0, max=1.0,value=0.66)
         # add slider and label
         self.grid.add_widget(Label(text="Transparency for " + imageName, size_hint=(1, 0.5)))
         self.grid.add_widget(self.slider)
@@ -107,3 +108,6 @@ class ImageAlign(Scatter):
                     self.apply_transform(Matrix().scale(1.0 / 1.01, 1.0 / 1.01, 1.0 / 1.01), anchor=touch.pos)
         else:
             super(ImageAlign, self).on_touch_down(touch)
+
+    def change_opacity(self, instance, opacity):
+        self.image.opacity = opacity
