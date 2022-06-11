@@ -49,12 +49,11 @@ class ImageEditSceen(FloatLayout):
         self.add_widget(self.imageArea)
 
     def send_save(self,instance):
-        pos = self.imageArea.imageBox.scatter.pos
+        pos = (self.imageArea.imageBox.scatter.center_x - self.imageArea.imageBox.center_x,self.imageArea.imageBox.scatter.center_y - self.imageArea.imageBox.center_y)
         rotation = self.imageArea.imageBox.scatter.rotation
-        size = (self.imageArea.imageBox.scatter.width * self.imageArea.imageBox.scatter.scale
-                , self.imageArea.imageBox.scatter.height * self.imageArea.imageBox.scatter.scale)
-        print(pos, rotation, size)
-        self.parent.parent.handle_save(pos, rotation, size)
+        scale = self.imageArea.imageBox.scatter.scale
+        print(pos, rotation, scale)
+        self.parent.parent.handle_save(pos, rotation, scale, self.image_list[self.on_image])
 
 
 
