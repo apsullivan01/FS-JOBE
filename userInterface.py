@@ -75,7 +75,7 @@ class HomeScreen(Screen):
         self.imageList = self.imageListClass.getImageList()
 
         # Creates the entirety of the slider and image sections
-        self.sliders.showImageObj(self.imageList)
+
 
 class SelectImages(Screen):
     def __init__(self, **kwargs):
@@ -100,11 +100,11 @@ class SelectImages(Screen):
         self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
 
-    def submit(self, obj):
+    def submit(self, event):
         # Grabs the number of images in the input_num TextInput
         chg = self.manager.get_screen('homeScreen')
         chg.submit(self.input_num.text)
-        self.go_home()
+        self.go_home(event)
 
 class EditImages(Screen):
     def __init__(self, **kwargs):
@@ -133,8 +133,10 @@ class SlidersScreen(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(SlidersScreen, self).__init__(**kwargs)
+    def create_screen(self):
+        self.home_screen = self.manager.get_screen('homeScreen')
         self.sliders = UI()
-
+        self.sliders.showImageObj(self.home_screen.imageList)
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
         box = BoxLayout(orientation='vertical')
 
@@ -142,7 +144,6 @@ class SlidersScreen(Screen):
         box.add_widget(back_button)
         box.add_widget(self.sliders)
         self.add_widget(box)
-
 
     def go_home(self, event):
         self.manager.transition.direction = 'right'
@@ -155,10 +156,15 @@ class UserInterface(App):
         screen_manager = ScreenManager()
         screen_manager.add_widget(HomeScreen(name="homeScreen"))
         screen_manager.add_widget(SelectImages(name="selectScreen"))
+
         edit_screen = EditImages(name="editScreen")
         screen_manager.add_widget(edit_screen)
         edit_screen.create_screen()
-        screen_manager.add_widget(SlidersScreen(name="slidersScreen"))
+
+        sliders_screen = SlidersScreen(name="slidersScreen")
+        screen_manager.add_widget(sliders_screen)
+        sliders_screen.create_screen()
+
 
         return screen_manager
 

@@ -62,7 +62,7 @@ class allImages:
 # importing method
 def imgImport(numImage):
     Images = allImages()
-    # matrix_images = imgMatrix()
+    #matrix_images = imgMatrix()
     # removing unused images from list
     for i in range(numImage - 1, 9):
         allImages.imgList.pop()
