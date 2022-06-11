@@ -5,7 +5,7 @@ from PIL import Image
 def imgAlign(dict, bgName):
     #iterate through images
     list = []
-    size = Image.open(bgName)
+    size = Image.open(bgName).size
     for key, value in dict.items():
         element = Image.open(key)
         #translation
@@ -18,7 +18,7 @@ def imgAlign(dict, bgName):
         new_size = int(x * value[2]), int(y * value[2])
         print(new_size)
         element = element.resize(new_size)
-        element = element.crop(0, 0, size[0] * -1, size[1] * -1)
+        element = element.crop((0, 0, size[0], size[1]))
 
         element.save(key + "_aligned.png", format="PNG")
         list.append(key + "_aligned.png")
@@ -27,5 +27,5 @@ def imgAlign(dict, bgName):
 #img1 = Image.open("Images\L15 XPL.png")
 img2 = Image.open("Images\L15-Plain.jpg")
 dict = {}
-dict['Images\L15 XPL.png'] = ((300, 0), 90, 0.01)
-#mgAlign(dict)
+dict['Images\L15 XPL.png'] = ((300, 0), 90, 1)
+imgAlign(dict, "Images\L15 XPL.png")
