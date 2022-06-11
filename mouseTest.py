@@ -1,3 +1,4 @@
+from tkinter import Button
 from kivy.app import App
 from kivy.graphics import Rectangle, Color, Line
 from kivy.graphics.transformation import Matrix
@@ -31,9 +32,11 @@ class MoveMe(Scatter):
 
 class UserInterface(App):
     def build(self):
+        box = BoxLayout()
+        button = Button()
         scatter = MoveMe()
         #scatter.auto_bring_to_front = True
-        image = Image(source='Images/L15.png',size=(dp(500),dp(500)))
+        image = Image(source="Images/L15.png",size=(dp(500),dp(500)))
         scatter.add_widget(image)
         return scatter
 
