@@ -20,7 +20,6 @@ import imageIn
 import os
 # from Sliders import UI,ImageView
 from UI import UI
-from EditImg import EditImg
 from Scatter import ImageEditSceen
 
 
