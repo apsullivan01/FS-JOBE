@@ -120,7 +120,7 @@ class EditImages(Screen):
         # Creating back button and new box layout for images and sliders
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
         box = BoxLayout(orientation='vertical')
-        export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
+        #export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
         # Adding created widgets to the user interface
         box.add_widget(back_button)
         box.add_widget(self.image_edit)
