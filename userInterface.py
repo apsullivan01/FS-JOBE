@@ -73,7 +73,7 @@ class HomeScreen(Screen):
 
         # Gets the list of images imported
         self.imageList = self.imageListClass.getImageList()
-        self.manager.get_screen('slidersScreen').updateList(self.imageList)
+
         self.manager.get_screen('editScreen').createArea(self.imageList)
 
         # Creates the entirety of the slider and image sections
@@ -128,6 +128,7 @@ class EditImages(Screen):
         self.add_widget(box)
 
     def createArea(self, imageList):
+        self.image_list = imageList
         self.image_edit.createArea(imageList)
 
     def go_home(self, event):
@@ -140,7 +141,9 @@ class EditImages(Screen):
 
     def export(self,event):
         print()
-        imgAlign.imgAlign(self.export_info)
+        list = imgAlign.imgAlign(self.export_info)
+        list.insert(0,self.image_list[0])
+        self.manager.get_screen('slidersScreen').updateList(list)
 
 
 class SlidersScreen(Screen):

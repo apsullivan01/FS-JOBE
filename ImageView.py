@@ -1,5 +1,6 @@
 from kivy.graphics import Rectangle
 from kivy.metrics import dp
+from kivy.uix.image import Image
 from kivy.uix.relativelayout import RelativeLayout
 
 
@@ -8,10 +9,7 @@ class ImageView(RelativeLayout):
         super(ImageView, self).__init__(**kwargs)
         self.size = (dp(500), dp(500))
         # self.allow_stretch = True
-        with self.canvas:
-            self.opacity = 1
-            Rectangle(source=imageName, pos=(dp(30),dp(0)), size=(dp(500),dp(500)))
-
+        self.add_widget(Image(source=imageName,size=self.size,pos=self.pos))
     def changeOpacity(self, instance, opacity):
         self.opacity = opacity/100
 

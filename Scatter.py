@@ -136,7 +136,7 @@ class ImageAlign(Scatter):
                 if self.scale < 10:
                     self.apply_transform(Matrix().scale(1.01, 1.01, 1.01), anchor=touch.pos)
             if touch.button == 'scrollup':
-                if self.scale > 0.5:
+                if self.scale > 0.1:
                     self.apply_transform(Matrix().scale(1.0 / 1.01, 1.0 / 1.01, 1.0 / 1.01), anchor=touch.pos)
         else:
             super(ImageAlign, self).on_touch_down(touch)
