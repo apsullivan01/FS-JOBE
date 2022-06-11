@@ -2,21 +2,18 @@ from PIL import Image
 
 #takes list of images and corresponding lists of transformation matrices, as well as bool for saving images
 
-def imgAlign(slides, positions, rotations, sizes, saveImg):
+def imgAlign(dict):
     #iterate through images
-    i = 0
-    for element in slides:
+    for key, value in dict.items():
+        element = Image.open(source=key)
         #translation
-        element = element.transform(element.size, Image.AFFINE, (1, 0, positions[i][0], 0, 1, positions[i][1]))
+        element = element.transform(element.size, Image.AFFINE, (1, 0, value[0][0], 0, 1, value[0][1]))
         #rotation
-        element = element.rotate(rotations[i])
+        element = element.rotate(value[1])
         #resizing
-        element = element.resize(sizes[i])
+        element = element.resize(element.size * value[2])
 
-        if (saveImg):
-            element.save("alignedImg" + str(i) + ".png", format="PNG")
-        i += 1
-    return slides
+        element.save(key + "_aligned.png", format="PNG")
 
 #TEST CODE
 img1 = Image.open("Images\L15 XPL.png")

@@ -18,6 +18,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 # Other Imports
 import imageIn
 import os
+import imgAlign
 # from Sliders import UI,ImageView
 from UI import UI
 from Scatter import ImageEditSceen
@@ -139,7 +140,7 @@ class EditImages(Screen):
 
     def export(self):
         print()
-        #do stuff with colbys function, the lists are about
+        imgAlign(self.export_info)
 
 class SlidersScreen(Screen):
     def __init__(self, **kwargs):
