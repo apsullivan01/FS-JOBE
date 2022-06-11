@@ -73,6 +73,8 @@ class HomeScreen(Screen):
 
         # Gets the list of images imported
         self.imageList = self.imageListClass.getImageList()
+        self.manager.get_screen('slidersScreen').updateList(self.imageList)
+        self.manager.get_screen('editScreen').createArea(self.imageList)
 
         # Creates the entirety of the slider and image sections
 
@@ -113,7 +115,7 @@ class EditImages(Screen):
 
     def create_screen(self):
         self.home_screen = self.manager.get_screen('homeScreen')
-        self.image_edit = ImageEditSceen(self.home_screen.imageList)
+        self.image_edit = ImageEditSceen()
         # Creates the entirety of the slider and image sections
 
         # Creating back button and new box layout for images and sliders
@@ -125,6 +127,9 @@ class EditImages(Screen):
         box.add_widget(self.image_edit)
         self.add_widget(box)
 
+    def createArea(self, imageList):
+        self.image_edit.createArea(imageList)
+
     def go_home(self, event):
         self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
@@ -133,17 +138,18 @@ class SlidersScreen(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(SlidersScreen, self).__init__(**kwargs)
-    def create_screen(self):
-        self.home_screen = self.manager.get_screen('homeScreen')
+        self.slidersScreen = BoxLayout(orientation='vertical', spacing=10)
         self.sliders = UI()
-        self.sliders.showImageObj(self.home_screen.imageList)
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
-        box = BoxLayout(orientation='vertical')
 
         # Adding created widgets to the user Interface
-        box.add_widget(back_button)
-        box.add_widget(self.sliders)
-        self.add_widget(box)
+        self.slidersScreen.add_widget(back_button)
+        self.slidersScreen.add_widget(self.sliders)
+        self.add_widget(self.slidersScreen)
+
+    def updateList(self, imageList):
+        self.sliders.showImageObj(imageList)
+
 
     def go_home(self, event):
         self.manager.transition.direction = 'right'
@@ -160,10 +166,7 @@ class UserInterface(App):
         edit_screen = EditImages(name="editScreen")
         screen_manager.add_widget(edit_screen)
         edit_screen.create_screen()
-
-        sliders_screen = SlidersScreen(name="slidersScreen")
-        screen_manager.add_widget(sliders_screen)
-        sliders_screen.create_screen()
+        screen_manager.add_widget(SlidersScreen(name="slidersScreen"))
 
 
         return screen_manager

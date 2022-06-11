@@ -19,12 +19,15 @@ from kivy.uix.widget import Widget
 
 
 class ImageEditSceen(FloatLayout):
-    def __init__(self, imageList, **kwargs):
+    def __init__(self, **kwargs):
         super(ImageEditSceen, self).__init__(**kwargs)
-        self.imageArea = ImageEdit()
-        self.imageSlider = ImageEditSlider("Images/L15.png")
-        self.add_widget(self.imageSlider)
-        self.add_widget(self.imageArea)
+
+    def createArea(self,imageList):
+        if len(imageList) > 1:
+            self.imageArea = ImageEdit(imageList[1], imageList[0])
+            self.imageSlider = ImageEditSlider(imageList[1])
+            self.add_widget(self.imageSlider)
+            self.add_widget(self.imageArea)
 
 
 class ImageEditSlider(GridLayout):
@@ -49,23 +52,22 @@ class ImageEditSlider(GridLayout):
 
 
 class ImageEdit(GridLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, editImage, backImage, **kwargs):
         super(ImageEdit, self).__init__(**kwargs)
         self.cols = 1
         self.pos_hint = {"top": 0.795, "left" : 1 }
         self.size_hint = (1, .795)
 
-        self.imageBox = ImageBox()
+        self.imageBox = ImageBox(editImage, backImage)
         self.add_widget(self.imageBox)
 
 
 class ImageBox(StencilView):
-    def __init__(self, **kwargs):
+    def __init__(self, editImage, backImage, **kwargs):
         super(ImageBox, self).__init__(**kwargs)
-        self.scatter = ImageAlign('Images/L15.png',  0.9*float(self.width),
+        self.scatter = ImageAlign(editImage,  0.9*float(self.width),
                                               0.9*float(self.height),
                                               self.pos, pos=self.pos, auto_bring_to_front=True)
-        backImage = 'Images/L15 XPL.png'
         self.backImage = Image(source=backImage, height=0.9*float(self.height), width=0.9*float(self.width))
         self.add_widget(self.backImage)
         self.add_widget(self.scatter)
