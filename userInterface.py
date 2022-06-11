@@ -138,9 +138,10 @@ class EditImages(Screen):
         self.export_info[image_name] = (pos, rotation, scale)
         print(pos, rotation, scale)
 
-    def export(self):
+    def export(self,event):
         print()
-        imgAlign(self.export_info)
+        imgAlign.imgAlign(self.export_info)
+
 
 class SlidersScreen(Screen):
     def __init__(self, **kwargs):
@@ -173,7 +174,6 @@ class UserInterface(App):
         screen_manager.add_widget(EditImages(name="editScreen"))
         screen_manager.add_widget(SlidersScreen(name="slidersScreen"))
         return screen_manager
-
 
 
 if __name__ == "__main__":
