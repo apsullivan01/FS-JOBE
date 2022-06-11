@@ -9,7 +9,7 @@ from tkinter import filedialog
 # from cv2 import FileNode_NAMED
 import numpy as np
 import createMatrix
-from createMatrix import imgMatrix
+#from createMatrix import imgMatrix
 
 
 class ExtensionError:
@@ -62,7 +62,7 @@ class allImages:
 # importing method
 def imgImport(numImage):
     Images = allImages()
-    matrix_images = imgMatrix()
+    # matrix_images = imgMatrix()
     # removing unused images from list
     for i in range(numImage - 1, 9):
         allImages.imgList.pop()
