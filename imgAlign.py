@@ -2,9 +2,10 @@ from PIL import Image
 
 #takes list of images and corresponding lists of transformation matrices, as well as bool for saving images
 
-def imgAlign(dict, size):
+def imgAlign(dict, bgName):
     #iterate through images
     list = []
+    size = Image.open(bgName)
     for key, value in dict.items():
         element = Image.open(key)
         #translation
@@ -27,4 +28,4 @@ def imgAlign(dict, size):
 img2 = Image.open("Images\L15-Plain.jpg")
 dict = {}
 dict['Images\L15 XPL.png'] = ((300, 0), 90, 0.01)
-imgAlign(dict)
+#mgAlign(dict)

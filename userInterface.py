@@ -141,7 +141,7 @@ class EditImages(Screen):
 
     def export(self,event):
         print()
-        list = imgAlign.imgAlign(self.export_info)
+        list = imgAlign.imgAlign(self.export_info,self.image_list[0])
         list.insert(0,self.image_list[0])
         self.manager.get_screen('slidersScreen').updateList(list)
 
