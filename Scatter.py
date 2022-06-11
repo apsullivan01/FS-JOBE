@@ -22,7 +22,7 @@ class ImageEditSceen(FloatLayout):
     def __init__(self, imageList, **kwargs):
         super(ImageEditSceen, self).__init__(**kwargs)
         self.imageArea = ImageEdit()
-        self.imageSlider = ImageEditSlider("L15.png")
+        self.imageSlider = ImageEditSlider("Images/L15.png")
         self.add_widget(self.imageSlider)
         self.add_widget(self.imageArea)
 
@@ -62,10 +62,10 @@ class ImageEdit(GridLayout):
 class ImageBox(StencilView):
     def __init__(self, **kwargs):
         super(ImageBox, self).__init__(**kwargs)
-        self.scatter = ImageAlign('L15.png',  0.9*float(self.width),
+        self.scatter = ImageAlign('Images/L15.png',  0.9*float(self.width),
                                               0.9*float(self.height),
                                               self.pos, pos=self.pos, auto_bring_to_front=True)
-        backImage = 'L15 XPL.png'
+        backImage = 'Images/L15 XPL.png'
         self.backImage = Image(source=backImage, height=0.9*float(self.height), width=0.9*float(self.width))
         self.add_widget(self.backImage)
         self.add_widget(self.scatter)

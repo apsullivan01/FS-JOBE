@@ -30,7 +30,8 @@ class HomeScreen(Screen):
         # Call to box layout constructor
         super(HomeScreen, self).__init__(**kwargs)
         # Declaring options for spacing and look
-        self.homeScreen = BoxLayout(orientation='vertical', row_default_height=20, spacing=10)
+        self.homeScreen = BoxLayout(orientation='vertical', spacing=10)
+        self.homeScreen.row_default_height = 20
 
         # Instancing UI and EditImg
         self.imageList = []
@@ -50,19 +51,22 @@ class HomeScreen(Screen):
 
     # Clear the interface and setup image selection
     def select_images(self, event):
+        self.manager.transition.direction = 'left'
         self.manager.current = 'selectScreen'
 
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
+        self.manager.transition.direction = 'left'
         self.manager.current = 'editScreen'
 
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
+        self.manager.transition.direction = 'left'
         self.manager.current = 'slidersScreen'
 
-    def submit(self, obj):
+    def submit(self, numImages):
         # Grabs the number of images in the input_num TextInput
-        #self.numImg = self.input_num.text
+        self.numImg = numImages
 
         # Brings up the image importing interface
         self.imageListClass = imageIn.imgImport(int(self.numImg))
@@ -77,6 +81,8 @@ class SelectImages(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(SelectImages, self).__init__(**kwargs)
+        self.selectScreen = BoxLayout(orientation='vertical', spacing=10)
+        self.selectScreen.row_default_height = 20
         self.numImg = None
         back_button = Button(text='Home', size_hint=(1, .5), on_release=self.go_home)
         self.input_num = TextInput(text='', size_hint=(1, .2), write_tab=False, multiline=False,
@@ -84,24 +90,29 @@ class SelectImages(Screen):
         input_label = Label(text='Enter number of images to be imported in text field below (max 10) \n'
                                  'Only use files in the .png format')
 
-        self.add_widget(back_button)
-        self.add_widget(input_label)
-        self.add_widget(self.input_num)
+        self.selectScreen.add_widget(back_button)
+        self.selectScreen.add_widget(input_label)
+        self.selectScreen.add_widget(self.input_num)
 
-    def go_home(self):
+        self.add_widget(self.selectScreen)
+
+    def go_home(self, event):
+        self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
 
     def submit(self, obj):
         # Grabs the number of images in the input_num TextInput
-        chg = self.manager.homeScreen
-        chg.sumbit(self.input_num.text)
+        chg = self.manager.get_screen('homeScreen')
+        chg.submit(self.input_num.text)
         self.go_home()
 
 class EditImages(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(EditImages, self).__init__(**kwargs)
-        self.home_screen = self.manager.homeScreen
+
+    def create_screen(self):
+        self.home_screen = self.manager.get_screen('homeScreen')
         self.image_edit = ImageEditSceen(self.home_screen.imageList)
         # Creates the entirety of the slider and image sections
 
@@ -114,7 +125,8 @@ class EditImages(Screen):
         box.add_widget(self.image_edit)
         self.add_widget(box)
 
-    def go_home(self):
+    def go_home(self, event):
+        self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
 
 class SlidersScreen(Screen):
@@ -132,7 +144,8 @@ class SlidersScreen(Screen):
         self.add_widget(box)
 
 
-    def go_home(self):
+    def go_home(self, event):
+        self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
 
 # App Class
@@ -142,7 +155,9 @@ class UserInterface(App):
         screen_manager = ScreenManager()
         screen_manager.add_widget(HomeScreen(name="homeScreen"))
         screen_manager.add_widget(SelectImages(name="selectScreen"))
-        screen_manager.add_widget(EditImages(name="editScreen"))
+        edit_screen = EditImages(name="editScreen")
+        screen_manager.add_widget(edit_screen)
+        edit_screen.create_screen()
         screen_manager.add_widget(SlidersScreen(name="slidersScreen"))
 
         return screen_manager
