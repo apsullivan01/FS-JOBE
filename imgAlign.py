@@ -2,7 +2,7 @@ from PIL import Image
 
 #takes list of images and corresponding lists of transformation matrices, as well as bool for saving images
 
-def imgAlign(dict):
+def imgAlign(dict, size):
     #iterate through images
     list = []
     for key, value in dict.items():
@@ -17,6 +17,7 @@ def imgAlign(dict):
         new_size = int(x * value[2]), int(y * value[2])
         print(new_size)
         element = element.resize(new_size)
+        element = element.crop(0, 0, size[0] * -1, size[1] * -1)
 
         element.save(key + "_aligned.png", format="PNG")
         list.append(key + "_aligned.png")
