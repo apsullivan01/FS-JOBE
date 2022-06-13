@@ -30,6 +30,6 @@ def imgAlign(dict, bgName):
 #TEST CODE
 #img1 = Image.open("Images\L15 XPL.png")
 #img2 = Image.open("Images\L15-Plain.jpg")
-dict = {}
-dict['Images/L15.png'] = ((0.5, 0.0), 0, 0.2)
-imgAlign(dict, "Images/L15 XPL.png")
+#dict = {}
+#dict['Images/L15.png'] = ((0.5, 0.0), 0, 0.2)
+#imgAlign(dict, "Images/L15 XPL.png")

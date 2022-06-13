@@ -47,27 +47,27 @@ def alignImages(im1, im2):
 
   return im1Reg, h
 
-if __name__ == '__main__':
-
-  # Read reference image
-  refFilename = "Images\L15 XPL.png"
-  print("Reading reference image : ", refFilename)
-  imReference = cv2.imread(refFilename, cv2.IMREAD_COLOR)
-
-  # Read image to be aligned
-  imFilename = "Images\L15-Plain.jpg"
-  print("Reading image to align : ", imFilename);
-  im = cv2.imread(imFilename, cv2.IMREAD_COLOR)
-
-  print("Aligning images ...")
-  # Registered image will be resotred in imReg.
-  # The estimated homography will be stored in h.
-  imReg, h = alignImages(im, imReference)
-
-  # Write aligned image to disk.
-  outFilename = "aligned.jpg"
-  print("Saving aligned image : ", outFilename);
-  cv2.imwrite(outFilename, imReg)
-
-  # Print estimated homography
-  print("Estimated homography : \n",  h)
+# if __name__ == '__main__':
+#
+#   # Read reference image
+#   refFilename = "Images\L15 XPL.png"
+#   print("Reading reference image : ", refFilename)
+#   imReference = cv2.imread(refFilename, cv2.IMREAD_COLOR)
+#
+#   # Read image to be aligned
+#   imFilename = "Images\L15-Plain.jpg"
+#   print("Reading image to align : ", imFilename);
+#   im = cv2.imread(imFilename, cv2.IMREAD_COLOR)
+#
+#   print("Aligning images ...")
+#   # Registered image will be resotred in imReg.
+#   # The estimated homography will be stored in h.
+#   imReg, h = alignImages(im, imReference)
+#
+#   # Write aligned image to disk.
+#   outFilename = "aligned.jpg"
+#   print("Saving aligned image : ", outFilename);
+#   cv2.imwrite(outFilename, imReg)
+#
+#   # Print estimated homography
+#   print("Estimated homography : \n",  h)
