@@ -1,4 +1,4 @@
-
+import math
 
 from kivy.app import App
 from kivy.graphics import Rectangle, Color, Line
@@ -49,10 +49,16 @@ class ImageEditSceen(FloatLayout):
         self.add_widget(self.imageArea)
 
     def send_save(self,instance):
-        pos = (self.imageArea.imageBox.scatter.center_x - self.imageArea.imageBox.center_x,self.imageArea.imageBox.scatter.center_y - self.imageArea.imageBox.center_y)
-        rotation = self.imageArea.imageBox.scatter.rotation
-        scale = self.imageArea.imageBox.scatter.scale
-        print(pos, rotation, scale)
+        box = self.imageArea.imageBox
+        x = box.scatter.x - box.init_x
+        y = box.scatter.y - box.init_y
+        print(x)
+        print(box.scatter.pos)
+        print(box.backImage.norm_image_size)
+        #y = scatter.heigh + y
+        pos = (x*2/(box.backImage.norm_image_size[0]), y*2/box.backImage.norm_image_size[1])
+        rotation = box.scatter.rotation
+        scale = box.scatter.scale
         self.parent.parent.handle_save(pos, rotation, scale, self.image_list[self.on_image])
 
 
@@ -97,49 +103,76 @@ class ImageEdit(GridLayout):
 class ImageBox(StencilView):
     def __init__(self, editImage, backImage, **kwargs):
         super(ImageBox, self).__init__(**kwargs)
-        self.scatter = ImageAlign(editImage,  0.9*float(self.width),
-                                              0.9*float(self.height),
-                                              self.pos, pos=self.pos, auto_bring_to_front=True)
-        self.backImage = Image(source=backImage, height=0.9*float(self.height), width=0.9*float(self.width))
+        self.backImage = Image(source=backImage, height=self.height, width=self.width,pos = self.pos)
+        self.scatter = ImageAlign(editImage, x=50, y=50, size=self.backImage.norm_image_size, auto_bring_to_front=True)
         self.add_widget(self.backImage)
         self.add_widget(self.scatter)
-        self.bind(pos=self.updateBackImage, size=self.updateBackImage)
+        self.bind(pos=self.updateImage, size=self.updateImage)
 
-    def updateBackImage(self, instance, value):
-        self.scatter.image.width = 0.9*float(self.width)
-        self.scatter.image.height = 0.9*float(self.height)
-        self.scatter.image.pos = self.pos
 
-        self.scatter.size = self.scatter.image.size
-
-        self.backImage.width = 0.9 * float(self.width)
-        self.backImage.height = 0.9 * float(self.height)
+    def updateImage(self, instance, value):
+        self.backImage.width = self.width
+        self.backImage.height = self.height
         self.backImage.pos = self.pos
+
+        self.scatter.size = self.backImage.norm_image_size
+        self.scatter.pos = (((self.size[0] - self.backImage.norm_image_size[0])/4),
+                              self.parent.parent.parent.parent.export_button.height/2)
+        self.init_x = (self.size[0] - self.backImage.norm_image_size[0])/4
+        self.init_y = self.parent.parent.parent.parent.export_button.height/2
 
 
 class ImageAlign(Scatter):
-    def __init__(self, imageName, imageWidth, imageHeight, imagePos, **kwargs):
+    def __init__(self, imageName, **kwargs):
         super(ImageAlign, self).__init__(**kwargs)
         # set size and position
-        self.image = Image(source=imageName, size=(imageWidth, imageHeight), pos=imagePos, opacity=0.66)
-        self.size = self.image.size
+        self.image = Image(source=imageName, size=self.size, pos=self.pos, opacity=0.66)
         # prevent zooming while rotating
+        self.do_rotation = False
         self.do_scale = False
         # add image
         self.add_widget(self.image)
-        print(self.pos, self.rotation, self.image.size)
+        self.bind(pos=self.updateCanvas, size=self.updateCanvas)
+        with self.canvas:
+            Color(1,1,1,1)
+            x,y = self.pos
+            self.bg = Line(rectangle=(x,y,self.width,self.height))
 
+    def updateCanvas(self, *args):
+        self.bg.rectangle = (self.x,self.y,self.width,self.height)
+        self.image.size = self.size
+        self.image.pos = self.pos
     # change default on touch to include a mouse wheel scroll for zooming.
+
     def on_touch_down(self, touch):
         if touch.is_mouse_scrolling:
             if touch.button == 'scrolldown':
                 if self.scale < 10:
-                    self.apply_transform(Matrix().scale(1.01, 1.01, 1.01), anchor=touch.pos)
+                    self.apply_transform(Matrix().scale(1.01, 1.01, 1.01), anchor=(self.center_x,self.center_y+100))
             if touch.button == 'scrollup':
                 if self.scale > 0.1:
-                    self.apply_transform(Matrix().scale(1.0 / 1.01, 1.0 / 1.01, 1.0 / 1.01), anchor=touch.pos)
+                    self.apply_transform(Matrix().scale(1.0 / 1.01, 1.0 / 1.01, 1.0 / 1.01), anchor=(self.center_x,self.center_y))
+
         else:
             super(ImageAlign, self).on_touch_down(touch)
+        '''elif touch.button == 'right':
+                    y = (touch.y - self.center[1])
+                    x = (touch.x - self.center[0])
+                    calc = math.degrees(math.atan2(y, x))
+                    self.prev_angle = calc if calc > 0 else 360 + calc
+                    self.tmp = self.rotation'''
 
     def change_opacity(self, instance, opacity):
         self.image.opacity = opacity
+
+    '''def on_touch_move(self, touch):
+        if touch.button == 'right':
+            y = (touch.y - self.center[1])
+            x = (touch.x - self.center[0])
+            calc = math.degrees(math.atan2(y, x))
+            new_angle = calc if calc > 0 else 360+calc
+            rot = self.rotation + (new_angle-self.prev_angle)%360
+            mat = Matrix().rotate(rot,0,0,1)
+            self.apply_transform(mat,anchor=(self.x + self.width/2,self.y + self.height/2))
+        else:
+            super(ImageAlign, self).on_touch_move(touch)'''

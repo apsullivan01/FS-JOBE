@@ -56,8 +56,12 @@ class HomeScreen(Screen):
 
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
+        #temp
+        self.manager.get_screen('editScreen').createArea(['Images/L03 XPL.png','Images/L03.png'])
+
         self.manager.transition.direction = 'left'
         self.manager.current = 'editScreen'
+
 
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
@@ -120,11 +124,11 @@ class EditImages(Screen):
         # Creating back button and new box layout for images and sliders
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
         box = BoxLayout(orientation='vertical')
-        export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
+        self.export_button = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
         # Adding created widgets to the user interface
         box.add_widget(back_button)
         box.add_widget(self.image_edit)
-        box.add_widget(export_botton)
+        box.add_widget(self.export_button)
         self.add_widget(box)
 
     def createArea(self, imageList):
@@ -140,11 +144,12 @@ class EditImages(Screen):
         print(pos, rotation, scale)
 
     def export(self,event):
-        print()
         list = imgAlign.imgAlign(self.export_info,self.image_list[0])
         list.insert(0,self.image_list[0])
         self.manager.get_screen('slidersScreen').updateList(list)
 
+    def init_pos(self):
+        self.self.export_button.size
 
 class SlidersScreen(Screen):
     def __init__(self, **kwargs):
