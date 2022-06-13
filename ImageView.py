@@ -10,8 +10,9 @@ class ImageView(RelativeLayout):
         self.size = (dp(500), dp(500))
         # self.allow_stretch = True
         self.add_widget(Image(source=imageName,size=self.size,pos=self.pos))
+
     def changeOpacity(self, instance, opacity):
-        self.opacity = opacity/100
+        self.opacity = opacity/255
 
     def translate(self, instance, pos):
         self.x -= 10

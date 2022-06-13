@@ -25,6 +25,6 @@ def renderOverlay(slides, transparency):
     background.show()
 
 #TEST CODE
-img1 = Image.open("Images\L15 XPL.png")
-img2 = Image.open("Images\L15-Plain.jpg")
-renderOverlay([img1, img2], [255, 128])
+#img1 = Image.open("Images\L15 XPL.png")
+#img2 = Image.open("Images\L15-Plain.jpg")
+#renderOverlay([img1, img2], [255, 128])

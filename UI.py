@@ -19,6 +19,7 @@ class UI(BoxLayout):
 
         self.imageList = []
         self.imageObjList = []
+        self.opacityList = []
         self.imageAreaFix = AnchorLayout(anchor_x='center', anchor_y='center')
 
 
@@ -26,6 +27,7 @@ class UI(BoxLayout):
         return self.imageList
 
     def createImageObj(self,imageList):
+        self.imageList = imageList
         for image in imageList:
             imageObj = ImageBoxAndView(image)
             self.imageObjList.append(imageObj)
@@ -43,3 +45,8 @@ class UI(BoxLayout):
         self.add_widget(self.sideBar)
         self.add_widget(self.imageArea)
 
+    def get_transparencies(self):
+        transparency_list = []
+        for image in self.imageObjList:
+            transparency_list.append(int(image.get_opacity_value()))
+        return transparency_list

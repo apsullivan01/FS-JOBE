@@ -19,6 +19,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 import imageIn
 import os
 import imgAlign
+import imageOverlay
+from PIL import Image
 # from Sliders import UI,ImageView
 from UI import UI
 from Scatter import ImageEditSceen
@@ -32,8 +34,6 @@ class HomeScreen(Screen):
         # Declaring options for spacing and look
         self.homeScreen = BoxLayout(orientation='vertical', spacing=10)
         self.homeScreen.row_default_height = 20
-
-        # Instancing UI and EditImg
         self.imageList = []
         self.input_num = None
 
@@ -56,6 +56,9 @@ class HomeScreen(Screen):
 
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
+        #temp
+        self.manager.get_screen('editScreen').createArea(['Images/L03 XPL.png','Images/L03.png'])
+
         self.manager.transition.direction = 'left'
         self.manager.current = 'editScreen'
 
@@ -120,11 +123,15 @@ class EditImages(Screen):
         # Creating back button and new box layout for images and sliders
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
         box = BoxLayout(orientation='vertical')
-        export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
+        warning = Label(text='Press Save Image before Next Image', size_hint=(1,0.1))
+        #export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
+        self.export_button = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
         # Adding created widgets to the user interface
         box.add_widget(back_button)
+        box.add_widget(warning)
         box.add_widget(self.image_edit)
-        box.add_widget(export_botton)
+        #box.add_widget(export_botton)
+        box.add_widget(self.export_button)
         self.add_widget(box)
 
     def createArea(self, imageList):
@@ -145,6 +152,9 @@ class EditImages(Screen):
         list.insert(0,self.image_list[0])
         self.manager.get_screen('slidersScreen').updateList(list)
 
+    def init_pos(self):
+        self.self.export_button.size
+
 
 class SlidersScreen(Screen):
     def __init__(self, **kwargs):
@@ -153,19 +163,28 @@ class SlidersScreen(Screen):
         self.slidersScreen = BoxLayout(orientation='vertical', spacing=10)
         self.sliders = UI()
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
-
+        save_button = Button(text='Save Transparencies', size_hint=(1, 0.1), on_release=self.save_transp)
         # Adding created widgets to the user Interface
         self.slidersScreen.add_widget(back_button)
         self.slidersScreen.add_widget(self.sliders)
         self.add_widget(self.slidersScreen)
+        self.add_widget(save_button)
 
     def updateList(self, imageList):
+        self.newImageList = imageList
         self.sliders.showImageObj(imageList)
 
 
     def go_home(self, event):
         self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
+
+    def save_transp(self, event):
+        transpList = self.sliders.get_transparencies()
+        slidesList = []
+        for image in self.newImageList:
+            slidesList.append(Image.open(image))
+        imageOverlay.renderOverlay(slidesList, transpList)
 
 # App Class
 class UserInterface(App):
