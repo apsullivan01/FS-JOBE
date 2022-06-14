@@ -59,7 +59,7 @@ class HomeScreen(Screen):
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
         #temp
-        self.manager.get_screen('editScreen').createArea(['Images/L03 XPL.png','Images/L03.png'])
+        self.manager.get_screen('editScreen').createArea(self.imageList)
 
         self.manager.transition.direction = 'left'
         self.manager.current = 'editScreen'
