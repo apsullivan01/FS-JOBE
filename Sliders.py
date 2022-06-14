@@ -30,7 +30,7 @@ class UI(BoxLayout):
         self.imageArea.add_widget(Widget(size_hint=(1,0.4)))
         self.sideBar = GridLayout(cols=1, row_force_default=True, row_default_height=150)
 
-        self.imageOne = ImageView('Images/L15.png')
+        #self.imageOne = ImageView('Images/L15.png')
         self.imageOneBox = BoxLayout(orientation='vertical', spacing=dp(5))
         with self.sideBar.canvas:
             Color(1, 1, 0, 0)
@@ -40,7 +40,7 @@ class UI(BoxLayout):
         self.imageOneBox.add_widget(Label(text='L15.png'))
         self.imageOneBox.add_widget(self.imageOneSlider)
 
-        self.imageTwo = ImageView('Images/L15 XPL.png')
+        #self.imageTwo = ImageView('Images/L15 XPL.png')
         self.imageTwoBox = BoxLayout(orientation='vertical')
         self.imageTwoSlider = Slider(min=0, max=100)
         self.imageTwoSlider.bind(value=self.imageTwo.changeOpacity)

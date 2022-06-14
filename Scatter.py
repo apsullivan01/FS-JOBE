@@ -52,9 +52,9 @@ class ImageEditSceen(FloatLayout):
         box = self.imageArea.imageBox
         x = box.scatter.x - box.init_x
         y = box.scatter.y - box.init_y
-        print(x)
-        print(box.scatter.pos)
-        print(box.backImage.norm_image_size)
+        #(x)
+        #print(box.scatter.pos)
+        #print(box.backImage.norm_image_size)
         #y = scatter.heigh + y
         pos = (x*2/(box.backImage.norm_image_size[0]), y*2/box.backImage.norm_image_size[1])
         rotation = box.scatter.rotation
