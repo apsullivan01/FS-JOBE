@@ -28,9 +28,9 @@ class importImage:
 
 
 class allImages:
-    imgList = []
 
     def __init__(self):
+        self.imgList = []
         self.img1 = importImage()
         self.imgList.append(self.img1)
         self.img2 = importImage()
@@ -65,14 +65,14 @@ def imgImport(numImage):
     #matrix_images = imgMatrix()
     # removing unused images from list
     for i in range(numImage - 1, 9):
-        allImages.imgList.pop()
+        Images.imgList.pop()
 
     # idk what this does but its necesary
     root = tk.Tk()
     root.withdraw()
 
     # loop until no more images to select
-    for image in allImages.imgList:
+    for image in Images.imgList:
         # extract file path from dialog box
         image.path = filedialog.askopenfilename()
         # create image object

@@ -24,8 +24,6 @@ class ImageEditSceen(FloatLayout):
         super(ImageEditSceen, self).__init__(**kwargs)
         self.save_state = False
 
-
-
     def createArea(self,imageList):
         if len(imageList) > 1:
             self.on_image = 1
@@ -46,14 +44,15 @@ class ImageEditSceen(FloatLayout):
     def next_choice(self,instance):
         if self.save_state == False:
             not_saved = Popup(title='You have not saved this image.', content=BoxLayout(orientation='horizontal'),
-                              size_hint=(0.2, 0.2))
+                              size_hint=(0.2, 0.2), auto_dismiss=False)
             skip_button = Button(text='Skip', on_press=self.next_image, on_release=not_saved.dismiss)
-            save_button = Button(text='Save', on_press=self.send_save, on_release=not_saved.dismiss, color=(0, 0, 1))
+            save_button = Button(text='Save', on_press=self.send_save, on_release=not_saved.dismiss)
             not_saved.content.add_widget(skip_button)
             not_saved.content.add_widget(save_button)
             not_saved.open()
         else:
             self.next_image(instance)
+
     def next_image(self, instance):
         self.save_state = False
         self.on_image += 1

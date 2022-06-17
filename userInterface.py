@@ -1,4 +1,6 @@
 # Kivy Imports
+import gc
+
 import kivy
 kivy.require('2.1.0')
 from kivy.app import App
@@ -54,12 +56,34 @@ class HomeScreen(Screen):
 
     # Clear the interface and setup image selection
     def select_images(self, event):
+        if len(self.imageList) > 0:
+            not_empty = Popup(title='This will clear you current images.', content=BoxLayout(orientation='horizontal'),
+                              size_hint=(0.2, 0.2))
+            cont_button = Button(text='Continue', on_press=self.select_images_help, on_release=not_empty.dismiss)
+            go_back_button = Button(text='Back', on_release=not_empty.dismiss)
+            not_empty.content.add_widget(cont_button)
+            not_empty.content.add_widget(go_back_button)
+            not_empty.open()
+        else:
+            self.select_images_help(event)
+
+    def select_images_help(self, event):
+        self.imageList = []
+        self.outputImageList = []
         self.manager.transition.direction = 'left'
         self.manager.current = 'selectScreen'
+        self.manager.get_screen('selectScreen').create()
+        if self.manager.has_screen('editScreen'):
+            self.manager.remove_widget(self.manager.get_screen('editScreen'))
+        if self.manager.has_screen('slidersScreen'):
+            self.manager.remove_widget(self.manager.get_screen('slidersScreen'))
+        self.manager.add_widget(EditImages(name="editScreen"))
+        self.manager.add_widget(SlidersScreen(name="slidersScreen"))
 
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
         self.manager.get_screen('editScreen').image_edit.clear_widgets()
+        gc.collect()
         self.manager.get_screen('editScreen').createArea(self.imageList)
         self.manager.transition.direction = 'left'
         self.manager.current = 'editScreen'
@@ -90,6 +114,9 @@ class SelectImages(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(SelectImages, self).__init__(**kwargs)
+        self.create()
+
+    def create(self):
         self.selectScreen = BoxLayout(orientation='vertical', spacing=10)
         self.selectScreen.row_default_height = 20
         self.numImg = None
@@ -98,7 +125,6 @@ class SelectImages(Screen):
                                    on_text_validate=self.submit)
         input_label = Label(text='Enter number of images to be imported in text field below (max 10) \n'
                                  'Only use files in the .png format')
-
         self.selectScreen.add_widget(back_button)
         self.selectScreen.add_widget(input_label)
         self.selectScreen.add_widget(self.input_num)
@@ -126,6 +152,7 @@ class EditImages(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
         super(EditImages, self).__init__(**kwargs)
+
         self.export_info = {}
         self.image_edit = ImageEditSceen()
         # Creates the entirety of the slider and image sections
@@ -157,12 +184,11 @@ class EditImages(Screen):
 
     def handle_save(self,pos, rotation, scale, image_name):
         self.export_info[image_name] = (pos, rotation, scale)
-        print(pos, rotation, scale)
 
     def handle_export(self):
         if self.image_edit.save_state == False:
             not_saved = Popup(title='You have not saved this image', content=BoxLayout(orientation='horizontal'),
-                              size_hint=(0.2, 0.2))
+                              size_hint=(0.2, 0.2), auto_dismiss=False)
             skip_button = Button(text='Skip', on_press=self.export, on_release=not_saved.dismiss)
             save_button = Button(text='Save', on_press=self.image_edit.send_save, on_release=not_saved.dismiss)
             not_saved.content.add_widget(skip_button)
@@ -183,8 +209,6 @@ class EditImages(Screen):
         export_popup.title = "Export Complete!"
 
 
-
-
 class SlidersScreen(Screen):
     def __init__(self, **kwargs):
         # Call to box layout constructor
@@ -203,22 +227,31 @@ class SlidersScreen(Screen):
         self.newImageList = imageList
         self.sliders.showImageObj(imageList)
 
-
     def go_home(self, event):
         self.manager.transition.direction = 'right'
         self.manager.current = 'homeScreen'
 
     def save_transp(self, event):
-        save_popup = Popup(title='Save Successful\nFile: composite.png',
-                             size_hint=(0.2, 0.2))
-        confirm_button = Button(text='Confirm', on_release=save_popup.dismiss)
-        save_popup.content = confirm_button
-        save_popup.open()
+        self.save_popup = Popup(title='Enter File Name:',
+                             size_hint=(0.2, 0.2),auto_dismiss=False)
+        self.text_box = TextInput(text='', size_hint=(1, 1), write_tab=False, multiline=False,
+                                   on_text_validate=self.do_save)
+        self.save_popup.content=self.text_box
+        self.save_popup.open()
+    def do_save(self,instance):
+        self.save_popup.dismiss()
+        self.save_popup.open()
         transpList = self.sliders.get_transparencies()
         slidesList = []
         for image in self.newImageList:
             slidesList.append(Image.open(image))
-        imageOverlay.renderOverlay(slidesList, transpList)
+        imageOverlay.renderOverlay(slidesList, transpList, self.text_box.text.replace(".png", ""))
+        self.save_popup.title = 'Export Complete'
+        self.save_popup.content = Button(text='Confirm', on_release=self.save_popup.dismiss)
+        self.save_popup.open()
+
+
+
 
 # App Class
 class UserInterface(App):
@@ -227,8 +260,6 @@ class UserInterface(App):
         screen_manager = ScreenManager()
         screen_manager.add_widget(HomeScreen(name="homeScreen"))
         screen_manager.add_widget(SelectImages(name="selectScreen"))
-        screen_manager.add_widget(EditImages(name="editScreen"))
-        screen_manager.add_widget(SlidersScreen(name="slidersScreen"))
         return screen_manager
 
 

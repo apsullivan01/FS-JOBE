@@ -2,7 +2,7 @@ from PIL import Image
 
 #takes list of images and corresponding list of transparencies
 
-def renderOverlay(slides, transparency):
+def renderOverlay(slides, transparency,name):
     #open first image, convert to RGBA, set transparency
     background = slides[0]
     background = background.convert("RGBA")
@@ -21,7 +21,7 @@ def renderOverlay(slides, transparency):
                 (x, y),
                 mask)
         i += 1
-    background.save("composite.png", format="PNG")
+    background.save(name + ".png", format="PNG")
     background.show()
 
 #TEST CODE

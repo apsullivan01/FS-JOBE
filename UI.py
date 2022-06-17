@@ -4,6 +4,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.slider import Slider
 from kivy.uix.widget import Widget
+import gc
 
 from ImageBoxAndView import ImageBoxAndView
 from ImageView import ImageView
@@ -30,6 +31,9 @@ class UI(BoxLayout):
         self.sideBar.clear_widgets()
         self.imageAreaFix.clear_widgets()
         self.clear_widgets()
+        gc.collect()
+
+
     def getImageList(self):
         return self.imageList
 
