@@ -42,8 +42,8 @@ class HomeScreen(Screen):
 
         # Each button corresponds to the action they would like to take
         select_images = Button(text='Select Images', on_release=self.select_images)
-        to_sliders = Button(text='To Sliders', on_release=self.to_sliders)
-        edit_button = Button(text='Edit Images', on_release=self.edit_images)
+        to_sliders = Button(text='View and Change Transparency', on_release=self.to_sliders)
+        edit_button = Button(text='Align Images', on_release=self.edit_images)
 
         # Adding buttons to the home screen
         self.homeScreen.add_widget(select_images)
@@ -59,7 +59,6 @@ class HomeScreen(Screen):
 
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
-        #temp
         self.manager.get_screen('editScreen').image_edit.clear_widgets()
         self.manager.get_screen('editScreen').createArea(self.imageList)
         self.manager.transition.direction = 'left'
@@ -112,9 +111,16 @@ class SelectImages(Screen):
 
     def submit(self, event):
         # Grabs the number of images in the input_num TextInput
-        chg = self.manager.get_screen('homeScreen')
-        chg.submit(self.input_num.text)
-        self.go_home(event)
+        if self.input_num.text.isdigit():
+            chg = self.manager.get_screen('homeScreen')
+            chg.submit(self.input_num.text)
+            self.go_home(event)
+        else:
+            wrong_input = Popup(title='Please enter a valid number', content=Button(text="Confirm",
+                                size_hint=(1, 0.5)), size_hint=(0.3, 0.3))
+            wrong_input.content.bind(on_release=wrong_input.dismiss)
+            wrong_input.open()
+            self.input_num.text=''
 
 class EditImages(Screen):
     def __init__(self, **kwargs):
@@ -153,8 +159,28 @@ class EditImages(Screen):
         self.export_info[image_name] = (pos, rotation, scale)
         print(pos, rotation, scale)
 
+    def handle_export(self):
+        if self.image_edit.save_state == False:
+            not_saved = Popup(title='You have not saved this image', content=BoxLayout(orientation='horizontal'),
+                              size_hint=(0.2, 0.2))
+            skip_button = Button(text='Skip', on_press=self.export, on_release=not_saved.dismiss)
+            save_button = Button(text='Save', on_press=self.image_edit.send_save, on_release=not_saved.dismiss)
+            not_saved.content.add_widget(skip_button)
+            not_saved.content.add_widget(save_button)
+            not_saved.open()
+        else:
+            self.export()
+
     def export(self):
+        export_popup = Popup(title='Export in progress...',
+                          size_hint=(0.2, 0.2))
+        confirm_button = Button(text='Confirm', on_press=self.go_home, on_release=export_popup.dismiss)
+        export_popup.content = confirm_button
+        export_popup.open()
+        self.manager.get_screen('homeScreen').outputImageList = [self.manager.get_screen('homeScreen').outputImageList[0]]
         self.manager.get_screen('homeScreen').outputImageList += imgAlign.imgAlign(self.export_info,self.image_list[0])
+        export_popup.content = confirm_button
+        export_popup.title = "Export Complete!"
 
 
 
@@ -183,6 +209,11 @@ class SlidersScreen(Screen):
         self.manager.current = 'homeScreen'
 
     def save_transp(self, event):
+        save_popup = Popup(title='Save Successful\nFile: composite.png',
+                             size_hint=(0.2, 0.2))
+        confirm_button = Button(text='Confirm', on_release=save_popup.dismiss)
+        save_popup.content = confirm_button
+        save_popup.open()
         transpList = self.sliders.get_transparencies()
         slidesList = []
         for image in self.newImageList:

@@ -10,6 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scatter import Scatter
 from kivy.uix.anchorlayout import AnchorLayout
@@ -21,6 +22,7 @@ from kivy.uix.widget import Widget
 class ImageEditSceen(FloatLayout):
     def __init__(self, **kwargs):
         super(ImageEditSceen, self).__init__(**kwargs)
+        self.save_state = False
 
 
 
@@ -33,16 +35,27 @@ class ImageEditSceen(FloatLayout):
             self.imageSlider.slider.bind(value=self.imageArea.imageBox.scatter.change_opacity)
             if len(self.image_list) > 2:
                 self.imageSlider.next_button.text = 'Next Image'
-                self.imageSlider.next_button.bind(on_release=self.next_image)
+                self.imageSlider.next_button.bind(on_release=self.next_choice)
             else:
-                self.parent.parent.export_button.text = 'Export saved images'
-                self.parent.parent.export_button.on_release = self.parent.parent.export
+                self.parent.parent.export_button.text = 'Export Saved Images'
+                self.parent.parent.export_button.on_release = self.parent.parent.handle_export
             self.imageSlider.save_button.bind(on_release=self.send_save)
             self.add_widget(self.imageSlider)
             self.add_widget(self.imageArea)
 
-
+    def next_choice(self,instance):
+        if self.save_state == False:
+            not_saved = Popup(title='You have not saved this image.', content=BoxLayout(orientation='horizontal'),
+                              size_hint=(0.2, 0.2))
+            skip_button = Button(text='Skip', on_press=self.next_image, on_release=not_saved.dismiss)
+            save_button = Button(text='Save', on_press=self.send_save, on_release=not_saved.dismiss, color=(0, 0, 1))
+            not_saved.content.add_widget(skip_button)
+            not_saved.content.add_widget(save_button)
+            not_saved.open()
+        else:
+            self.next_image(instance)
     def next_image(self, instance):
+        self.save_state = False
         self.on_image += 1
         self.clear_widgets()
         self.imageArea = ImageEdit(self.image_list[self.on_image], self.image_list[0])
@@ -50,27 +63,28 @@ class ImageEditSceen(FloatLayout):
         self.imageSlider.slider.bind(value=self.imageArea.imageBox.scatter.change_opacity)
         if (len(self.image_list)-1) > self.on_image:
             self.imageSlider.next_button.text = 'Next Image'
-            self.imageSlider.next_button.bind(on_release=self.next_image)
+            self.imageSlider.next_button.bind(on_release=self.next_choice)
         else:
-            self.parent.parent.export_button.text = 'Export saved images'
-            self.parent.parent.export_button.on_release = self.parent.parent.export
+            self.parent.parent.export_button.text = 'Export Saved Images'
+            self.parent.parent.export_button.on_release = self.parent.parent.handle_export
 
         self.imageSlider.save_button.bind(on_release=self.send_save)
         self.add_widget(self.imageSlider)
         self.add_widget(self.imageArea)
 
     def send_save(self,instance):
+        self.save_state = True
         box = self.imageArea.imageBox
         x = box.scatter.x - box.init_x
         y = box.scatter.y - box.init_y
-        #(x)
-        #print(box.scatter.pos)
-        #print(box.backImage.norm_image_size)
-        #y = scatter.heigh + y
         pos = (x*2/(box.backImage.norm_image_size[0]), y*2/box.backImage.norm_image_size[1])
         rotation = box.scatter.rotation
         scale = box.scatter.scale
         self.parent.parent.handle_save(pos, rotation, scale, self.image_list[self.on_image])
+        save_succ = Popup(title='Save Successful', content=Button(text="Confirm", size_hint=(1, 0.5)),
+                            size_hint=(0.2, 0.2))
+        save_succ.content.bind(on_release=save_succ.dismiss)
+        save_succ.open()
 
 
 
