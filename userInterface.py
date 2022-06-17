@@ -57,7 +57,7 @@ class HomeScreen(Screen):
     # Clear the interface and setup image selection
     def select_images(self, event):
         if len(self.imageList) > 0:
-            not_empty = Popup(title='This will clear you current images.', content=BoxLayout(orientation='horizontal'),
+            not_empty = Popup(title='This will clear your current images.', content=BoxLayout(orientation='horizontal'),
                               size_hint=(0.2, 0.2))
             cont_button = Button(text='Continue', on_press=self.select_images_help, on_release=not_empty.dismiss)
             go_back_button = Button(text='Back', on_release=not_empty.dismiss)
