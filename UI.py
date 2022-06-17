@@ -22,7 +22,14 @@ class UI(BoxLayout):
         self.opacityList = []
         self.imageAreaFix = AnchorLayout(anchor_x='center', anchor_y='center')
 
-
+    def reinit(self):
+        self.imageList = []
+        self.imageObjList = []
+        self.opacityList = []
+        self.imageArea.clear_widgets()
+        self.sideBar.clear_widgets()
+        self.imageAreaFix.clear_widgets()
+        self.clear_widgets()
     def getImageList(self):
         return self.imageList
 
@@ -33,17 +40,18 @@ class UI(BoxLayout):
             self.imageObjList.append(imageObj)
 
     def showImageObj(self, imageInputList):
-        self.createImageObj(imageInputList)
-        self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
-        for image in self.imageObjList:
-            self.imageAreaFix.add_widget(image.getView())
-            self.sideBar.add_widget(image.getBox())
+        if len(imageInputList) > 0:
+            self.createImageObj(imageInputList)
+            self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
+            for image in self.imageObjList:
+                self.imageAreaFix.add_widget(image.getView())
+                self.sideBar.add_widget(image.getBox())
 
-        self.imageArea.add_widget(self.imageAreaFix)
-        self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
+            self.imageArea.add_widget(self.imageAreaFix)
+            self.imageArea.add_widget(Widget(size_hint=(1, 0.4)))
 
-        self.add_widget(self.sideBar)
-        self.add_widget(self.imageArea)
+            self.add_widget(self.sideBar)
+            self.add_widget(self.imageArea)
 
     def get_transparencies(self):
         transparency_list = []

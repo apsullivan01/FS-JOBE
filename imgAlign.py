@@ -23,9 +23,9 @@ def imgAlign(dict, bgName):
         element = element.crop((x_pos * -1,(size[1] - y_pos - new_size[1]) * -1 , size[0] - x_pos, y_pos + new_size[1]))
         #translation
         #element = element.transform(element.size, Image.AFFINE, (1, 0, value[0][0], 0, 1, value[0][1]))
-
-        element.save(key + "_aligned.png", format="PNG")
-        list.append(key + "_aligned.png")
+        stringName = key.replace(".png","")
+        element.save(stringName + "_aligned.png", format="PNG")
+        list.append(stringName + "_aligned.png")
     return list
 #TEST CODE
 #img1 = Image.open("Images\L15 XPL.png")

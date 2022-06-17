@@ -21,29 +21,40 @@ from kivy.uix.widget import Widget
 class ImageEditSceen(FloatLayout):
     def __init__(self, **kwargs):
         super(ImageEditSceen, self).__init__(**kwargs)
-        self.on_image = 1
+
 
 
     def createArea(self,imageList):
         if len(imageList) > 1:
+            self.on_image = 1
             self.image_list = imageList
             self.imageArea = ImageEdit(imageList[self.on_image], imageList[0])
-            self.imageSlider = ImageEditSlider(imageList[1])
+            self.imageSlider = ImageEditSlider(imageList[1], 1, len(imageList)-1)
             self.imageSlider.slider.bind(value=self.imageArea.imageBox.scatter.change_opacity)
             if len(self.image_list) > 2:
+                self.imageSlider.next_button.text = 'Next Image'
                 self.imageSlider.next_button.bind(on_release=self.next_image)
+            else:
+                self.parent.parent.export_button.text = 'Export saved images'
+                self.parent.parent.export_button.on_release = self.parent.parent.export
             self.imageSlider.save_button.bind(on_release=self.send_save)
             self.add_widget(self.imageSlider)
             self.add_widget(self.imageArea)
+
 
     def next_image(self, instance):
         self.on_image += 1
         self.clear_widgets()
         self.imageArea = ImageEdit(self.image_list[self.on_image], self.image_list[0])
-        self.imageSlider = ImageEditSlider(self.image_list[self.on_image])
+        self.imageSlider = ImageEditSlider(self.image_list[self.on_image],self.on_image, len(self.image_list)-1)
         self.imageSlider.slider.bind(value=self.imageArea.imageBox.scatter.change_opacity)
         if (len(self.image_list)-1) > self.on_image:
+            self.imageSlider.next_button.text = 'Next Image'
             self.imageSlider.next_button.bind(on_release=self.next_image)
+        else:
+            self.parent.parent.export_button.text = 'Export saved images'
+            self.parent.parent.export_button.on_release = self.parent.parent.export
+
         self.imageSlider.save_button.bind(on_release=self.send_save)
         self.add_widget(self.imageSlider)
         self.add_widget(self.imageArea)
@@ -66,7 +77,7 @@ class ImageEditSceen(FloatLayout):
 
 
 class ImageEditSlider(GridLayout):
-    def __init__(self, imageName, **kwargs):
+    def __init__(self, imageName, on_image, num_images, **kwargs):
         super(ImageEditSlider, self).__init__(**kwargs)
         self.size_hint = (1, 0.2)
         self.pos_hint = {"top": 1, "left": 1}
@@ -76,14 +87,15 @@ class ImageEditSlider(GridLayout):
         # make slider
         self.slider = Slider(min=0, max=1.0,value=0.66)
         # add slider and label
-        self.grid.add_widget(Label(text="Transparency for " + imageName, size_hint=(1, 0.5)))
+        string_name = imageName[imageName.rfind('/')+1:]
+        self.grid.add_widget(Label(text=("Image " + str(on_image) + " of " + str(num_images) + ": " + string_name), size_hint=(1, 0.5)))
         self.grid.add_widget(self.slider)
         # add grid to overall grid
         self.add_widget(self.grid)
         # make save button
         self.save_button = Button(text='Save Image', size_hint=(0.4, 1))
         # make next button
-        self.next_button = Button(text='Next Image', size_hint=(0.4, 1))
+        self.next_button = Button(size_hint=(0.4, 1))
         # add save and next button to overall grid
         self.add_widget(self.save_button)
         self.add_widget(self.next_button)

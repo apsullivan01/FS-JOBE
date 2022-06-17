@@ -37,6 +37,7 @@ class HomeScreen(Screen):
         self.homeScreen = BoxLayout(orientation='vertical', spacing=10)
         self.homeScreen.row_default_height = 20
         self.imageList = []
+        self.outputImageList = []
         self.input_num = None
 
         # Each button corresponds to the action they would like to take
@@ -59,13 +60,15 @@ class HomeScreen(Screen):
     # Clear the interface and bring up loadable states
     def edit_images(self, event):
         #temp
+        self.manager.get_screen('editScreen').image_edit.clear_widgets()
         self.manager.get_screen('editScreen').createArea(self.imageList)
-
         self.manager.transition.direction = 'left'
         self.manager.current = 'editScreen'
 
     # Go to sliders for image stacking and previewing
     def to_sliders(self, event):
+        self.manager.get_screen('slidersScreen').sliders.reinit()
+        self.manager.get_screen('slidersScreen').updateList(self.outputImageList)
         self.manager.transition.direction = 'left'
         self.manager.current = 'slidersScreen'
 
@@ -78,7 +81,7 @@ class HomeScreen(Screen):
 
         # Gets the list of images imported
         self.imageList = self.imageListClass.getImageList()
-
+        self.outputImageList = [self.imageList[0]]
         self.manager.get_screen('editScreen').createArea(self.imageList)
 
         # Creates the entirety of the slider and image sections
@@ -118,19 +121,18 @@ class EditImages(Screen):
         # Call to box layout constructor
         super(EditImages, self).__init__(**kwargs)
         self.export_info = {}
-
         self.image_edit = ImageEditSceen()
         # Creates the entirety of the slider and image sections
-
+        self.list = []
         # Creating back button and new box layout for images and sliders
         back_button = Button(text='Home', size_hint=(1, 0.1), on_release=self.go_home)
         box = BoxLayout(orientation='vertical')
-        warning = Label(text='Press Save Image before Next Image', size_hint=(1,0.1))
+        self.warning = Label(text='No images to edit', size_hint=(1,0.1))
         #export_botton = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
-        self.export_button = Button(text='Export saved images', size_hint=(1, 0.1), on_release=self.export)
+        self.export_button = Button(size_hint=(1, 0.1))
         # Adding created widgets to the user interface
         box.add_widget(back_button)
-        box.add_widget(warning)
+        box.add_widget(self.warning)
         box.add_widget(self.image_edit)
         #box.add_widget(export_botton)
         box.add_widget(self.export_button)
@@ -139,6 +141,9 @@ class EditImages(Screen):
     def createArea(self, imageList):
         self.image_list = imageList
         self.image_edit.createArea(imageList)
+        if len(imageList) > 1 :
+            self.warning.text = "Press Save Image before Next Image"
+
 
     def go_home(self, event):
         self.manager.transition.direction = 'right'
@@ -148,14 +153,10 @@ class EditImages(Screen):
         self.export_info[image_name] = (pos, rotation, scale)
         print(pos, rotation, scale)
 
-    def export(self,event):
-        print()
-        list = imgAlign.imgAlign(self.export_info,self.image_list[0])
-        list.insert(0,self.image_list[0])
-        self.manager.get_screen('slidersScreen').updateList(list)
+    def export(self):
+        self.manager.get_screen('homeScreen').outputImageList += imgAlign.imgAlign(self.export_info,self.image_list[0])
 
-    def init_pos(self):
-        self.self.export_button.size
+
 
 
 class SlidersScreen(Screen):

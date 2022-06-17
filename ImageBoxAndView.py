@@ -16,7 +16,8 @@ class ImageBoxAndView:
         self.imageSlider = Slider(min=0, max=255)
         self.imageSlider.bind(value=self.change_opacity)
         # add sliders and label to image box
-        self.imageBox.add_widget(Label(text=fileName))
+        string_name = fileName[fileName.rfind('/')+1:]
+        self.imageBox.add_widget(Label(text=string_name))
         self.imageBox.add_widget(self.imageSlider)
 
     def getBox(self):
