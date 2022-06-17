@@ -3,6 +3,7 @@ import gc
 
 import kivy
 kivy.require('2.1.0')
+
 from kivy.app import App
 from kivy.graphics import Rectangle, Color
 from kivy.metrics import dp
