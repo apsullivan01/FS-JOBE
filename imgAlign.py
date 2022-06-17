@@ -17,7 +17,7 @@ def imgAlign(dict, bgName):
         y_pos = y * value[0][1]
         new_size = int(x * value[2]), int(y * value[2])
         element = element.resize(new_size)
-        element = element.crop((x_pos * -1,(size[1] - y_pos - new_size[1]) * -1 , size[0] - x_pos, y_pos + new_size[1]))
+        element = element.crop((x_pos * -1,(y - y_pos - new_size[1]) * -1 , x - x_pos, y_pos + new_size[1]))
         #translation
         #element = element.transform(element.size, Image.AFFINE, (1, 0, value[0][0], 0, 1, value[0][1]))
         stringName = key.replace(".png","")
@@ -28,5 +28,5 @@ def imgAlign(dict, bgName):
 #img1 = Image.open("Images\L15 XPL.png")
 #img2 = Image.open("Images\L15-Plain.jpg")
 #dict = {}
-#dict['Images/L15.png'] = ((0.5, 0.0), 0, 0.2)
-#imgAlign(dict, "Images/L15 XPL.png")
+#dict['Images/L03 - Modal analysis #1_Panorama_Phases+BSE.png'] = ((0.0, 0.0), 356.07026066052475, 0.8786625992724453)
+#imgAlign(dict, "Images/L03.png")

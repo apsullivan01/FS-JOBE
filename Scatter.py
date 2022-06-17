@@ -153,7 +153,7 @@ class ImageAlign(Scatter):
         # set size and position
         self.image = Image(source=imageName, size=self.size, pos=self.pos, opacity=0.66)
         # prevent zooming while rotating
-        self.do_rotation = False
+        #self.do_rotation = False
         self.do_scale = False
         # add image
         self.add_widget(self.image)
